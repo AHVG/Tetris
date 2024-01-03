@@ -37,12 +37,18 @@
 
 #include <SFML/Graphics.hpp>
 
+#include <vector>
+
 
 class Brick {
 
 private:
 
-    sf::RectangleShape *shape;
+    sf::RectangleShape shape;
+    sf::Vector2f position;
+    std::vector<int> matrix;
+
+    int size;
 
 public:
 
@@ -52,8 +58,7 @@ public:
     void go_right();
     void go_left();
 
-    void rotate_right();
-    void rotate_left();
+    void rotate_clockwise();
 
     void accelerate();
     void decelerate();

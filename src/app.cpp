@@ -4,7 +4,7 @@
 
 
 App::App() {
-    window = new sf::RenderWindow(sf::VideoMode(200, 200), "Tetris");
+    window = new sf::RenderWindow(sf::VideoMode(600, 600), "Tetris");
 }
 
 App::~App() {
