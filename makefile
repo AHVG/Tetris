@@ -35,5 +35,8 @@ clean:
 
 all: $(TARGET)
 
+run: $(TARGET)
+	./$(TARGET)
+
 # Diretório de destino
 $(shell mkdir -p $(OBJ_DIR) $(BIN_DIR))
