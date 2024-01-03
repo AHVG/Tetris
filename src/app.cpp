@@ -5,14 +5,10 @@
 
 App::App() {
     window = new sf::RenderWindow(sf::VideoMode(200, 200), "Tetris");
-    
-    shape = new sf::CircleShape(100.f);
-    shape->setFillColor(sf::Color::Green);
 }
 
 App::~App() {
     delete window;
-    delete shape;
 }
 
 void App::handle_event() {
@@ -30,7 +26,7 @@ void App::handle_update() {}
 
 void App::handle_render() {
     window->clear();
-    window->draw(*shape);
+    test_brick.draw_at(window);
     window->display();
 }
 

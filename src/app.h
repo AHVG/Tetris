@@ -3,6 +3,8 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "brick.h"
+
 
 class App {
 
@@ -12,8 +14,8 @@ private:
     void handle_update();
     void handle_render();
 
-    sf::CircleShape *shape;
     sf::RenderWindow *window;
+    Brick test_brick;
 
 public:
 
