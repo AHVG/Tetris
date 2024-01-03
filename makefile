@@ -14,7 +14,7 @@ TARGET = $(BIN_DIR)/$(NAME)
 
 # Regra para construir o programa
 $(TARGET): $(OBJS)
-	$(CXX) $(CXXFLAGS) -o $@ $^
+	$(CXX) $(CXXFLAGS) -o $(TARGET) $^ -lsfml-graphics -lsfml-window -lsfml-system
 
 # Está recompilando todos os arquivos mesmo aqueles que não precisam, pois os headers são os mesmos para todos
 # Regra para construir os objetos a partir dos arquivos fonte
