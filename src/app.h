@@ -11,9 +11,9 @@ class App {
 
 private:
 
-    void handle_event();
-    void handle_update();
-    void handle_render();
+    void handleEvent();
+    void handleUpdate();
+    void handleRender();
 
     sf::RenderWindow *window;
     sf::Clock clock;

@@ -1,5 +1,6 @@
 #include <SFML/Graphics.hpp>
 
+#include <iostream>
 #include <stdexcept>
 #include <vector>
 
@@ -8,18 +9,20 @@
 
 
 Wall::Wall() {
-    std::vector<int> aux(width * height, 0);
-    bricks = aux;
+    for (int i = 0; i < width * height; i++) {
+        bricks.push_back(0);
+    }
 }
 
 Wall::~Wall() {}
 
-int Wall::crossed_the_line(Brick &brick) const {
-    sf::Vector2f brick_position = brick.get_position();
-    std::vector<int> brick_matrix = brick.get_matrix();
+int Wall::crossedTheLimit(Brick *brick) {
+    sf::Vector2f brick_position = brick->getPosition();
+    std::vector<int> brick_matrix = brick->getMatrix();
+
 
     for (unsigned long int i = 0; i < brick_matrix.size(); i++) {
-        sf::Vector2f relative_position(i % brick.get_size(), i / brick.get_size());
+        sf::Vector2f relative_position(i % brick->getSize(), i / brick->getSize());
         sf::Vector2f real_position = relative_position + brick_position;
 
         if ((real_position.x < 0 || real_position.x >= width || real_position.y < 0 || real_position.y >= height) &&
@@ -31,12 +34,12 @@ int Wall::crossed_the_line(Brick &brick) const {
     return 0;
 }
 
-int Wall::collides_with_other_bricks(Brick &brick) const {
-    sf::Vector2f brick_position = brick.get_position();
-    std::vector<int> brick_matrix = brick.get_matrix();
+int Wall::collidesWithOtherBricks(Brick *brick) {
+    sf::Vector2f brick_position = brick->getPosition();
+    std::vector<int> brick_matrix = brick->getMatrix();
 
     for (unsigned long int i = 0; i < brick_matrix.size(); i++) {
-        sf::Vector2f relative_position(i % brick.get_size(), i / brick.get_size());
+        sf::Vector2f relative_position(i % brick->getSize(), i / brick->getSize());
         sf::Vector2f real_position = relative_position + brick_position;
 
         if (real_position.x < 0 || real_position.x >= width || real_position.y < 0 || real_position.y >= height) {
@@ -51,6 +54,33 @@ int Wall::collides_with_other_bricks(Brick &brick) const {
     return 0;
 }
 
-void Wall::draw_at(sf::RenderWindow *window) {
-    throw std::logic_error("TODO: Wall::draw_at");
+void Wall::put(Brick *brick) {
+    sf::Vector2f brick_position = brick->getPosition();
+    std::vector<int> brick_matrix = brick->getMatrix();
+
+    for (unsigned long int i = 0; i < brick_matrix.size(); i++) {
+        sf::Vector2f relative_position(i % brick->getSize(), i / brick->getSize());
+        sf::Vector2f real_position = relative_position + brick_position;
+        
+        if (real_position.x < 0 || real_position.x >= width || real_position.y < 0 || real_position.y >= height) {
+            continue;
+        }
+
+        if (brick_matrix[i]) {
+            bricks[real_position.x + real_position.y * width] = 1;
+        }
+    }
+}
+
+void Wall::drawAt(sf::RenderWindow *window) {
+    sf::RectangleShape shape;
+    shape.setFillColor(sf::Color::Blue);
+    shape.setSize(sf::Vector2f(brick_size, brick_size));
+
+    for (long unsigned int i = 0; i < bricks.size(); i++) {
+        if (bricks[i]) {
+            shape.setPosition(sf::Vector2f((float(i % int(width))) * brick_size, (int(i / int(width))) * brick_size));
+            window->draw(shape);
+        }
+    }
 }

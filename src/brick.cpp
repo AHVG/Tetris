@@ -30,62 +30,61 @@ Brick::Brick() {
     time_when_decelerate = 1.0;
     time_when_accelerate = time_when_decelerate / 6.0;
     current_time = time_when_decelerate;
-
 }
 
 Brick::~Brick() {}
 
-void Brick::handle_key_pressed(sf::Keyboard::Key key_pressed) {
+void Brick::handleKeyPressed(sf::Keyboard::Key key_pressed) {
     if (key_pressed == sf::Keyboard::Up) {
-        rotate_anticlockwise();
+        rotateAnticlockwise();
     } else if (key_pressed == sf::Keyboard::Right) {
-        go_right();
+        goRight();
     
-        if (wall->crossed_the_line(*this)) {
-            go_left();
+        if (wall->crossedTheLimit(this)) {
+            goLeft();
         }
     } else if (key_pressed == sf::Keyboard::Left) {
-        go_left();
+        goLeft();
 
-        if (wall->crossed_the_line(*this)) {
-            go_right();
+        if (wall->crossedTheLimit(this)) {
+            goRight();
         }
     } else if (key_pressed == sf::Keyboard::Down) {
         accelerate();
     }
 }
 
-void Brick::handle_key_released(sf::Keyboard::Key key_released) {
+void Brick::handleKeyReleased(sf::Keyboard::Key key_released) {
     if (key_released == sf::Keyboard::Down) {
         decelerate();
     }
 }
 
-sf::Vector2f Brick::get_position() const {
+sf::Vector2f Brick::getPosition() {
     return position;
 }
 
-std::vector<int> Brick::get_matrix() const {
+std::vector<int> Brick::getMatrix() {
     return matrix;
 }
 
-int Brick::get_size() const {
+int Brick::getSize() {
     return size;
 }
 
-void Brick::set_wall(Wall *_wall) {
+void Brick::setWall(Wall *_wall) {
     wall = _wall;
 }
 
-void Brick::go_right() {
+void Brick::goRight() {
     position.x++;
 }
 
-void Brick::go_left() {
+void Brick::goLeft() {
     position.x--;
 }
 
-void Brick::rotate_clockwise() {
+void Brick::rotateClockwise() {
     std::vector<int> aux(matrix.size(), 0);
 
     for (long unsigned int i = 0; i < matrix.size(); i++) { // Se não der a rotação, voltar uma casa para cima ou para lado direito ou para lado esquerdo
@@ -95,7 +94,7 @@ void Brick::rotate_clockwise() {
     matrix = aux;
 }
 
-void Brick::rotate_anticlockwise() {
+void Brick::rotateAnticlockwise() {
     std::vector<int> aux(matrix.size(), 0);
 
     for (long unsigned int i = 0; i < matrix.size(); i++) { // Se não der a rotação, voltar uma casa para cima ou para lado direito ou para lado esquerdo
@@ -121,13 +120,37 @@ void Brick::update(float delta) {
 
         position.y++;
 
-        if (wall->crossed_the_line(*this)) {
-            position.y --;
+        if (wall->crossedTheLimit(this) || wall->collidesWithOtherBricks(this)) {
+            position.y--;
+            wall->put(this);
+            reset();
         }
     }
 }
 
-void Brick::draw_at(sf::RenderWindow *window) {
+void Brick::reset() {
+    shape.setFillColor(sf::Color::Green);
+    shape.setSize(sf::Vector2f(brick_size, brick_size));
+
+    std::vector<int> aux(9, 0);
+    matrix = aux;
+
+    matrix[1] = 1;
+    matrix[3] = 1;
+    matrix[4] = 1;
+    matrix[5] = 1;
+
+    position = sf::Vector2f(0, 0);
+
+    size = 3;
+    
+    elapsed_time = 0.0;
+    time_when_decelerate = 1.0;
+    time_when_accelerate = time_when_decelerate / 6.0;
+    current_time = time_when_decelerate;
+}
+
+void Brick::drawAt(sf::RenderWindow *window) {
     for (long unsigned int i = 0; i < matrix.size(); i++) {
         
         if (matrix[i]) {

@@ -63,26 +63,28 @@ public:
     Brick();
     ~Brick();
 
-    sf::Vector2f get_position() const;
-    std::vector<int> get_matrix() const;
-    int get_size() const;
+    sf::Vector2f getPosition();
+    std::vector<int> getMatrix();
+    int getSize();
 
-    void set_wall(Wall *_wall);
+    void setWall(Wall *_wall);
 
-    void go_right();
-    void go_left();
+    void goRight();
+    void goLeft();
 
-    void rotate_clockwise();
-    void rotate_anticlockwise();
+    void rotateClockwise();
+    void rotateAnticlockwise();
 
     void accelerate();
     void decelerate();
 
-    void handle_key_pressed(sf::Keyboard::Key key_pressed);
-    void handle_key_released(sf::Keyboard::Key key_released);
+    void handleKeyPressed(sf::Keyboard::Key key_pressed);
+    void handleKeyReleased(sf::Keyboard::Key key_released);
 
     void update(float delta);
-    void draw_at(sf::RenderWindow *window);
+    void drawAt(sf::RenderWindow *window);
+
+    void reset();
 
 };
 

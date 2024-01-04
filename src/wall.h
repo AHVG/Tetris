@@ -21,10 +21,12 @@ public:
     Wall();
     ~Wall();
 
-    int collides_with_other_bricks(Brick &brick) const;
-    int crossed_the_line(Brick &brick) const;
+    int collidesWithOtherBricks(Brick *brick);
+    int crossedTheLimit(Brick *brick);
 
-    void draw_at(sf::RenderWindow *window);
+    void put(Brick *brick);
+
+    void drawAt(sf::RenderWindow *window);
 };
 
 

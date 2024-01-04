@@ -7,42 +7,44 @@
 
 App::App() {
     window = new sf::RenderWindow(sf::VideoMode(250, 500), "Tetris");
+    test_brick.setWall(&wall);
 }
 
 App::~App() {
     delete window;
 }
 
-void App::handle_event() {
+void App::handleEvent() {
     sf::Event event;
 
     while (window->pollEvent(event)) {
         if (event.type == sf::Event::Closed) {
             window->close();
         } else if (event.type == sf::Event::KeyPressed) {
-            test_brick.handle_key_pressed(event.key.code);
+            test_brick.handleKeyPressed(event.key.code);
         } else if (event.type == sf::Event::KeyReleased) {
-            test_brick.handle_key_released(event.key.code);
+            test_brick.handleKeyReleased(event.key.code);
         }
     }
 }
 
-void App::handle_update() {
+void App::handleUpdate() {
     sf::Time deltaTime = clock.restart();
     float delta = deltaTime.asSeconds();
     test_brick.update(delta);
 }
 
-void App::handle_render() {
+void App::handleRender() {
     window->clear();
-    test_brick.draw_at(window);
+    test_brick.drawAt(window);
+    wall.drawAt(window);
     window->display();
 }
 
 void App::run() {
     while (window->isOpen()) {
-        handle_event();
-        handle_update();
-        handle_render();
+        handleEvent();
+        handleUpdate();
+        handleRender();
     }
 }
