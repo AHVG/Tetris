@@ -1,5 +1,7 @@
 #include <SFML/Graphics.hpp>
 
+#include <iostream>
+
 #include "app.h"
 
 
@@ -18,6 +20,8 @@ void App::handle_event() {
         
         if (event.type == sf::Event::Closed) {
             window->close();
+        } else if (event.type == sf::Event::KeyPressed) {
+            test_brick.handle_key_pressed(event.key.code);
         }
     }
 }

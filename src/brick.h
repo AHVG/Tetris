@@ -61,8 +61,8 @@ public:
     void rotate_clockwise();
 
     void accelerate();
-    void decelerate();
 
+    void handle_key_pressed(sf::Keyboard::Key key_pressed);
     void update();
     void draw_at(sf::RenderWindow *window);
 
