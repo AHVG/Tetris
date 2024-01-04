@@ -21,6 +21,7 @@ public:
     Wall();
     ~Wall();
 
+    // Ter apenas o collidesWithOtherBricks
     int collidesWithOtherBricks(Brick *brick);
     int crossedTheLimit(Brick *brick);
 

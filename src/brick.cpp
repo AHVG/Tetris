@@ -28,7 +28,7 @@ Brick::Brick() {
     
     elapsed_time = 0.0;
     time_when_decelerate = 1.0;
-    time_when_accelerate = time_when_decelerate / 6.0;
+    time_when_accelerate = time_when_decelerate / 10.0;
     current_time = time_when_decelerate;
 }
 
@@ -36,17 +36,47 @@ Brick::~Brick() {}
 
 void Brick::handleKeyPressed(sf::Keyboard::Key key_pressed) {
     if (key_pressed == sf::Keyboard::Up) {
-        rotateAnticlockwise();
+        rotateClockwise();
+
+        if (wall->crossedTheLimit(this) || wall->collidesWithOtherBricks(this)) {
+            goRight();
+
+            // Melhorar essa merda, tbm tem que ser feito de acordo com a metade do size
+            if (wall->crossedTheLimit(this) || wall->collidesWithOtherBricks(this)) {
+                goLeft();
+            } else {
+                return;
+            }
+
+            goLeft();
+
+            if (wall->crossedTheLimit(this) || wall->collidesWithOtherBricks(this)) {
+                goRight();
+            } else {
+                return;
+            }
+
+            position.y--;
+
+            if (wall->crossedTheLimit(this) || wall->collidesWithOtherBricks(this)) {
+                position.y++;
+            } else {
+                return;
+            }
+
+            rotateAnticlockwise();
+        }
+
     } else if (key_pressed == sf::Keyboard::Right) {
         goRight();
     
-        if (wall->crossedTheLimit(this)) {
+        if (wall->crossedTheLimit(this) || wall->collidesWithOtherBricks(this)) {
             goLeft();
         }
     } else if (key_pressed == sf::Keyboard::Left) {
         goLeft();
 
-        if (wall->crossedTheLimit(this)) {
+        if (wall->crossedTheLimit(this) || wall->collidesWithOtherBricks(this)) {
             goRight();
         }
     } else if (key_pressed == sf::Keyboard::Down) {
@@ -87,7 +117,7 @@ void Brick::goLeft() {
 void Brick::rotateClockwise() {
     std::vector<int> aux(matrix.size(), 0);
 
-    for (long unsigned int i = 0; i < matrix.size(); i++) { // Se não der a rotação, voltar uma casa para cima ou para lado direito ou para lado esquerdo
+    for (long unsigned int i = 0; i < matrix.size(); i++) {
         aux[(size - i / size - 1) + (i % size) * size] = matrix[i];
     }
 
@@ -97,7 +127,7 @@ void Brick::rotateClockwise() {
 void Brick::rotateAnticlockwise() {
     std::vector<int> aux(matrix.size(), 0);
 
-    for (long unsigned int i = 0; i < matrix.size(); i++) { // Se não der a rotação, voltar uma casa para cima ou para lado direito ou para lado esquerdo
+    for (long unsigned int i = 0; i < matrix.size(); i++) {
         aux[(i / size) + (size - i % size - 1) * size] = matrix[i];
     }
 
@@ -135,10 +165,10 @@ void Brick::reset() {
     std::vector<int> aux(9, 0);
     matrix = aux;
 
-    matrix[1] = 1;
     matrix[3] = 1;
     matrix[4] = 1;
     matrix[5] = 1;
+    matrix[6] = 1;
 
     position = sf::Vector2f(0, 0);
 
