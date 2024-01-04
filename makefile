@@ -22,12 +22,7 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp $(HDRS)
 	$(CXX) $(CXXFLAGS) -c -o $@ $<
 
 # Informa ao Make quais regras não são arquivos
-.PHONY: all clean print-variables
-
-print-variables:
-	@echo "SRCS: $(SRCS)"
-	@echo "HDRS: $(HDRS)"
-	@echo "OBJS: $(OBJS)"
+.PHONY: all clean run
 
 # Regra para limpar os objetos e o executável
 clean:

@@ -58,13 +58,13 @@ void Brick::handle_key_released(sf::Keyboard::Key key_released) {
 }
 
 void Brick::go_right() {
-    if (position.x < width - size) {
+    if (position.x < width - size) { // Mudar a condição para a peça e não o fim do campo
         position.x++;
     }
 }
 
 void Brick::go_left() {
-    if (position.x > 0) {
+    if (position.x > 0) { // Mudar a condição para a peça e não o fim do campo
         position.x--;
     }
 }
@@ -72,7 +72,7 @@ void Brick::go_left() {
 void Brick::rotate_clockwise() {
     std::vector<int> aux(matrix.size(), 0);
 
-    for (long unsigned int i = 0; i < matrix.size(); i++) {
+    for (long unsigned int i = 0; i < matrix.size(); i++) { // Se não der a rotação, voltar uma casa para cima ou para lado direito ou para lado esquerdo
         aux[(size - i / size - 1) + (i % size) * size] = matrix[i];
     }
 
@@ -95,7 +95,7 @@ void Brick::update(float delta) {
     if (elapsed_time > current_time) {
         elapsed_time = 0;
 
-        if (position.y < height - size) {
+        if (position.y < height - size) { // Mudar a condição para a peça e não o fim do campo
             position.y++;
         }
     }
@@ -103,14 +103,11 @@ void Brick::update(float delta) {
 
 void Brick::draw_at(sf::RenderWindow *window) {
     for (long unsigned int i = 0; i < matrix.size(); i++) {
-        shape.setPosition(sf::Vector2f(position.x * brick_size, position.y * brick_size) + sf::Vector2f((i % size) * brick_size, (i / size) * brick_size));
         
         if (matrix[i]) {
-            shape.setFillColor(sf::Color::Green);
-        } else {
-            shape.setFillColor(sf::Color::Blue);
+            shape.setPosition(sf::Vector2f(position.x * brick_size, position.y * brick_size) + sf::Vector2f((i % size) * brick_size, (i / size) * brick_size));
+            window->draw(shape);
         }
 
-        window->draw(shape);
     }
 }
