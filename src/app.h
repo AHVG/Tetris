@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 
 #include "brick.h"
+#include "wall.h"
 
 
 class App {
@@ -17,6 +18,7 @@ private:
     sf::RenderWindow *window;
     sf::Clock clock;
     Brick test_brick;
+    Wall wall;
 
 public:
 

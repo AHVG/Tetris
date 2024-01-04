@@ -17,10 +17,6 @@ Brick::Brick() {
         matrix.push_back(0);
     }
 
-    // 0000
-    // 1111
-    // 0000
-    // 0000
     matrix[4] = 1;
     matrix[5] = 1;
     matrix[6] = 1;
@@ -41,11 +37,19 @@ Brick::~Brick() {}
 
 void Brick::handle_key_pressed(sf::Keyboard::Key key_pressed) {
     if (key_pressed == sf::Keyboard::Up) {
-        rotate_clockwise();
+        rotate_anticlockwise();
     } else if (key_pressed == sf::Keyboard::Right) {
         go_right();
+    
+        if (wall->crossed_the_line(*this)) {
+            go_left();
+        }
     } else if (key_pressed == sf::Keyboard::Left) {
         go_left();
+
+        if (wall->crossed_the_line(*this)) {
+            go_right();
+        }
     } else if (key_pressed == sf::Keyboard::Down) {
         accelerate();
     }
@@ -57,16 +61,28 @@ void Brick::handle_key_released(sf::Keyboard::Key key_released) {
     }
 }
 
+sf::Vector2f Brick::get_position() const {
+    return position;
+}
+
+std::vector<int> Brick::get_matrix() const {
+    return matrix;
+}
+
+int Brick::get_size() const {
+    return size;
+}
+
+void Brick::set_wall(Wall *_wall) {
+    wall = _wall;
+}
+
 void Brick::go_right() {
-    if (position.x < width - size) { // Mudar a condição para a peça e não o fim do campo
-        position.x++;
-    }
+    position.x++;
 }
 
 void Brick::go_left() {
-    if (position.x > 0) { // Mudar a condição para a peça e não o fim do campo
-        position.x--;
-    }
+    position.x--;
 }
 
 void Brick::rotate_clockwise() {
@@ -74,6 +90,16 @@ void Brick::rotate_clockwise() {
 
     for (long unsigned int i = 0; i < matrix.size(); i++) { // Se não der a rotação, voltar uma casa para cima ou para lado direito ou para lado esquerdo
         aux[(size - i / size - 1) + (i % size) * size] = matrix[i];
+    }
+
+    matrix = aux;
+}
+
+void Brick::rotate_anticlockwise() {
+    std::vector<int> aux(matrix.size(), 0);
+
+    for (long unsigned int i = 0; i < matrix.size(); i++) { // Se não der a rotação, voltar uma casa para cima ou para lado direito ou para lado esquerdo
+        aux[(i / size) + (size - i % size - 1) * size] = matrix[i];
     }
 
     matrix = aux;
@@ -89,14 +115,14 @@ void Brick::decelerate() {
 
 void Brick::update(float delta) {
     elapsed_time += delta;
-
-    // std::cout << time_when_accelerate << " " << time_when_decelerate << " " << current_time << std::endl;
     
     if (elapsed_time > current_time) {
         elapsed_time = 0;
 
-        if (position.y < height - size) { // Mudar a condição para a peça e não o fim do campo
-            position.y++;
+        position.y++;
+
+        if (wall->crossed_the_line(*this)) {
+            position.y --;
         }
     }
 }
@@ -108,6 +134,5 @@ void Brick::draw_at(sf::RenderWindow *window) {
             shape.setPosition(sf::Vector2f(position.x * brick_size, position.y * brick_size) + sf::Vector2f((i % size) * brick_size, (i / size) * brick_size));
             window->draw(shape);
         }
-
     }
 }

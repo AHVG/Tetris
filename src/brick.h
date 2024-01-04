@@ -39,6 +39,9 @@
 
 #include <vector>
 
+#include "wall.h"
+
+class Wall;
 
 class Brick {
 
@@ -47,6 +50,7 @@ private:
     sf::RectangleShape shape;
     sf::Vector2f position;
     std::vector<int> matrix;
+    Wall *wall;
 
     int size;
     float elapsed_time;
@@ -59,10 +63,17 @@ public:
     Brick();
     ~Brick();
 
+    sf::Vector2f get_position() const;
+    std::vector<int> get_matrix() const;
+    int get_size() const;
+
+    void set_wall(Wall *_wall);
+
     void go_right();
     void go_left();
 
     void rotate_clockwise();
+    void rotate_anticlockwise();
 
     void accelerate();
     void decelerate();

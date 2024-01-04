@@ -40,7 +40,6 @@ void App::handle_render() {
 }
 
 void App::run() {
-
     while (window->isOpen()) {
         handle_event();
         handle_update();
