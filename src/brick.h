@@ -49,6 +49,10 @@ private:
     std::vector<int> matrix;
 
     int size;
+    float elapsed_time;
+    float time_when_accelerate;
+    float time_when_decelerate;
+    float current_time;
 
 public:
 
@@ -61,9 +65,12 @@ public:
     void rotate_clockwise();
 
     void accelerate();
+    void decelerate();
 
     void handle_key_pressed(sf::Keyboard::Key key_pressed);
-    void update();
+    void handle_key_released(sf::Keyboard::Key key_released);
+
+    void update(float delta);
     void draw_at(sf::RenderWindow *window);
 
 };

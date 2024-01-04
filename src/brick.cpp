@@ -13,21 +13,27 @@ Brick::Brick() {
     shape.setFillColor(sf::Color::Green);
     shape.setSize(sf::Vector2f(brick_size, brick_size));
 
-    for (int i = 0; i < 9; i++) {
+    for (int i = 0; i < 16; i++) {
         matrix.push_back(0);
     }
 
-    // 010
-    // 111
-    // 000
-    matrix[1] = 1;
-    matrix[3] = 1;
+    // 0000
+    // 1111
+    // 0000
+    // 0000
     matrix[4] = 1;
     matrix[5] = 1;
+    matrix[6] = 1;
+    matrix[7] = 1;
 
-    position = sf::Vector2f(10, 10);
+    position = sf::Vector2f(0, 0);
 
-    size = 3;
+    size = 4;
+    
+    elapsed_time = 0.0;
+    time_when_decelerate = 1.0;
+    time_when_accelerate = time_when_decelerate / 6.0;
+    current_time = time_when_decelerate;
 
 }
 
@@ -45,12 +51,22 @@ void Brick::handle_key_pressed(sf::Keyboard::Key key_pressed) {
     }
 }
 
+void Brick::handle_key_released(sf::Keyboard::Key key_released) {
+    if (key_released == sf::Keyboard::Down) {
+        decelerate();
+    }
+}
+
 void Brick::go_right() {
-    throw std::logic_error("TODO: Brick::go_right");
+    if (position.x < width - size) {
+        position.x++;
+    }
 }
 
 void Brick::go_left() {
-    throw std::logic_error("TODO: Brick::go_left");
+    if (position.x > 0) {
+        position.x--;
+    }
 }
 
 void Brick::rotate_clockwise() {
@@ -64,11 +80,25 @@ void Brick::rotate_clockwise() {
 }
 
 void Brick::accelerate() {
-    throw std::logic_error("TODO: Brick::accelerate");
+    current_time = time_when_accelerate;
 }
 
-void Brick::update() {
-    throw std::logic_error("TODO: Brick::update");
+void Brick::decelerate() {
+    current_time = time_when_decelerate;
+}
+
+void Brick::update(float delta) {
+    elapsed_time += delta;
+
+    // std::cout << time_when_accelerate << " " << time_when_decelerate << " " << current_time << std::endl;
+    
+    if (elapsed_time > current_time) {
+        elapsed_time = 0;
+
+        if (position.y < height - size) {
+            position.y++;
+        }
+    }
 }
 
 void Brick::draw_at(sf::RenderWindow *window) {

@@ -15,6 +15,7 @@ private:
     void handle_render();
 
     sf::RenderWindow *window;
+    sf::Clock clock;
     Brick test_brick;
 
 public:
