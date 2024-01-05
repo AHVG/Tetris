@@ -1,37 +1,3 @@
-/*
-
-0000
-####
-0000
-0000
-
-0000
-000#
-####
-0000
-
-0000
-#000
-####
-0000
-
-##
-##
-
-0000
-0##0
-##00
-
-0000
-##00
-0##0
-
-000
-###
-0#0
-
-*/
-
 #ifndef _H_BRICK
 #define _H_BRICK
 
@@ -40,12 +6,13 @@
 #include <vector>
 
 #include "movement_behavior.h"
+#include "entity.h"
 
 class Wall;
 class MovementBehavior;
 
 
-class Brick {
+class Brick : public Entity {
 
 private:
 
@@ -75,6 +42,7 @@ public:
     float getTimeWhenAccelerate();
     float getTimeWhenDecelerate();
     float getCurrentTime();
+    MovementBehavior *getMovementbehavior();
     int getFixed();
 
     // Setters

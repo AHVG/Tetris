@@ -6,11 +6,12 @@
 #include <vector>
 
 #include "brick.h"
+#include "entity.h"
 
 class Brick;
 
 
-class Wall {
+class Wall : public Entity{
 
 private:
 
