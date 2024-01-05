@@ -26,7 +26,7 @@ public:
     int crossedTheLimit(Brick *brick);
 
     void put(Brick *brick);
-    int isThereCompleteLine();
+    std::vector<int> getCompleteLine();
     int toScore();
 
     void drawAt(sf::RenderWindow *window);

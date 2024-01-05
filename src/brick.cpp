@@ -263,6 +263,7 @@ void Brick::update(float delta) {
         if (wall->collided(this)) {
             goUp();
             wall->put(this);
+            wall->toScore();
             reset();
         }
     }

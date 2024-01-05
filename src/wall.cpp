@@ -76,12 +76,44 @@ void Wall::put(Brick *brick) {
     }
 }
 
-int Wall::isThereCompleteLine() {
-    throw std::logic_error("TODO: isThereCompleteLine");
+std::vector<int> Wall::getCompleteLine() {
+    std::vector<int> lines;
+
+    for (int i = 0; i < height; i++) {
+        int number_of_elements_with_one = 0;
+
+        for (int j = 0; j < width; j++) {
+            if (bricks[i * width + j]) {
+                number_of_elements_with_one++;
+            } else {
+                break;
+            }
+        }
+
+        if (number_of_elements_with_one == width) {
+            lines.push_back(i);
+        }
+    }
+
+    return lines;
 }
 
 int Wall::toScore() {
-    throw std::logic_error("TODO: toScore");
+    std::vector<int> lines;
+    lines = getCompleteLine();
+
+    for (unsigned long int i = 0; i < lines.size(); i++) {
+        int line = lines[i];
+    
+        for (int k = line; k > 0; k--) {
+
+            for (int j = 0; j < width; j++) {
+                bricks[k * width + j] = bricks[(k - 1) * width + j];
+            }
+        }
+    }
+
+    return lines.size();
 }
 
 void Wall::drawAt(sf::RenderWindow *window) {
