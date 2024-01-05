@@ -31,7 +31,9 @@ Brick::Brick() {
     current_time = time_when_decelerate;
 }
 
-Brick::~Brick() {}
+Brick::~Brick() {
+    delete brick_generator;
+}
 
 void Brick::handleKeyPressed(sf::Keyboard::Key key_pressed) {
     if (key_pressed == sf::Keyboard::Up) {
@@ -75,6 +77,10 @@ float Brick::getCurrentTime() {
     return current_time;
 }
 
+MovementBehavior *Brick::getMovementbehavior() {
+    return movement_behavior;
+}
+
 void Brick::setShape(sf::RectangleShape _shape) {
     shape = _shape;
 }
@@ -115,17 +121,13 @@ void Brick::reset() {
     shape.setFillColor(sf::Color::Green);
     shape.setSize(sf::Vector2f(brick_size, brick_size));
 
-    std::vector<int> aux(9, 0);
-    matrix = aux;
+    std::pair<std::vector<int>, int> matrix_and_size = brick_generator->generate();
 
-    matrix[3] = 1;
-    matrix[4] = 1;
-    matrix[5] = 1;
-    matrix[6] = 1;
+    matrix = matrix_and_size.first;
+    size = matrix_and_size.second;
 
     position = sf::Vector2f(0, 0);
 
-    size = 3;
 }
 
 void Brick::drawAt(sf::RenderWindow *window) {

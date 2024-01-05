@@ -5,9 +5,11 @@
 
 #include <vector>
 
+#include "brick_generator.h"
 #include "movement_behavior.h"
 #include "entity.h"
 
+class BrickGenerator;
 class Wall;
 class MovementBehavior;
 
@@ -26,8 +28,7 @@ private:
     float current_time;
 
     MovementBehavior *movement_behavior;
-
-    int fixed;
+    BrickGenerator *brick_generator;
 
 public:
 
@@ -43,7 +44,6 @@ public:
     float getTimeWhenDecelerate();
     float getCurrentTime();
     MovementBehavior *getMovementbehavior();
-    int getFixed();
 
     // Setters
     void setShape(sf::RectangleShape _shape);
@@ -54,7 +54,6 @@ public:
     void setTimeWhenDecelerate(float _time_when_decelerate);
     void setCurrentTime(float _current_time);
     void setMovementBehavior(MovementBehavior *_movement_behavior);
-    void setFixed(int _fixed);
 
     void handleKeyPressed(sf::Keyboard::Key key_pressed);
     void handleKeyReleased(sf::Keyboard::Key key_released);

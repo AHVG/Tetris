@@ -35,6 +35,8 @@
 
 */
 
+#include <vector>
+
 #include "brick.h"
 
 class BrickGenerator {
@@ -44,7 +46,10 @@ private:
 
 public:
 
-    Brick *generate(MovementBehavior *movement_behavior);
+    BrickGenerator();
+    ~BrickGenerator();
+
+    std::pair<std::vector<int>, int> generate();
 
 };
 
