@@ -5,6 +5,7 @@
 
 #include "brick.h"
 #include "wall.h"
+#include "movement_behavior.h"
 
 
 class App {
@@ -19,6 +20,7 @@ private:
     sf::Clock clock;
     Brick test_brick;
     Wall wall;
+    MovementBehavior movement_behavior;
 
 public:
 

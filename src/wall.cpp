@@ -116,6 +116,10 @@ int Wall::toScore() {
     return lines.size();
 }
 
+void Wall::update(float delta) {
+    toScore();
+}
+
 void Wall::drawAt(sf::RenderWindow *window) {
     sf::RectangleShape shape;
     shape.setFillColor(sf::Color::Blue);

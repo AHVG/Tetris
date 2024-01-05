@@ -26,7 +26,6 @@ Brick::Brick() {
 
     size = 4;
     
-    elapsed_time = 0.0;
     time_when_decelerate = 1.0;
     time_when_accelerate = time_when_decelerate / 20.0;
     current_time = time_when_decelerate;
@@ -36,19 +35,19 @@ Brick::~Brick() {}
 
 void Brick::handleKeyPressed(sf::Keyboard::Key key_pressed) {
     if (key_pressed == sf::Keyboard::Up) {
-        tryRotateClockwise();
+        movement_behavior->tryRotateClockwise();
     } else if (key_pressed == sf::Keyboard::Right) {
-        tryGoRight(1);
+        movement_behavior->tryGoRight(1);
     } else if (key_pressed == sf::Keyboard::Left) {
-        tryGoLeft(1);
+        movement_behavior->tryGoLeft(1);
     } else if (key_pressed == sf::Keyboard::Down) {
-        accelerate();
+        movement_behavior->accelerate();
     }
 }
 
 void Brick::handleKeyReleased(sf::Keyboard::Key key_released) {
     if (key_released == sf::Keyboard::Down) {
-        decelerate();
+        movement_behavior->decelerate();
     }
 }
 
@@ -64,209 +63,52 @@ int Brick::getSize() {
     return size;
 }
 
-void Brick::setWall(Wall *_wall) {
-    wall = _wall;
+float Brick::getTimeWhenAccelerate() {
+    return time_when_accelerate;
 }
 
-void Brick::goRight() {
-    position.x++;
+float Brick::getTimeWhenDecelerate() {
+    return time_when_decelerate;
 }
 
-void Brick::goLeft() {
-    position.x--;
+float Brick::getCurrentTime() {
+    return current_time;
 }
 
-int Brick::tryGoRight(int steps) {
-    for (int i = 0; i < steps; i++) {
-        goRight();
-    }
-
-    if (wall->collided(this)) {
-        
-        for (int i = 0; i < steps; i++) {
-            goLeft();
-        }
-
-        return 0;
-    }
-
-    return 1;
+void Brick::setShape(sf::RectangleShape _shape) {
+    shape = _shape;
 }
 
-int Brick::tryGoLeft(int steps) {
-    for (int i = 0; i < steps; i++) {
-        goLeft();
-    }
-
-    if (wall->collided(this)) {
-        
-        for (int i = 0; i < steps; i++) {
-            goRight();
-        }
-
-        return 0;
-    }
-
-    return 1;
+void Brick::setPosition(sf::Vector2f _position) {
+    position = _position;
 }
 
-void Brick::goUp() {
-    position.y--;
+void Brick::setMatrix(std::vector<int> _matrix) {
+    matrix = _matrix;
 }
 
-void Brick::goDown() {
-    position.y++;
+void Brick::setSize(int _size) {
+    size = _size;
 }
 
-int Brick::tryGoUp(int steps) {
-    for (int i = 0; i < steps; i++) {
-        goUp();
-    }
-
-    if (wall->collided(this)) {
-        
-        for (int i = 0; i < steps; i++) {
-            goDown();
-        }
-
-        return 0;
-    }
-
-    return 1;
+void Brick::setTimeWhenAccelerate(float _time_when_accelerate) {
+    time_when_accelerate = _time_when_accelerate;
 }
 
-int Brick::tryGoDown(int steps) {
-    for (int i = 0; i < steps; i++) {
-        goDown();
-    }
-
-    if (wall->collided(this)) {
-        
-        for (int i = 0; i < steps; i++) {
-            goUp();
-        }
-
-        return 0;
-    }
-
-    return 1;
+void Brick::setTimeWhenDecelerate(float _time_when_decelerate) {
+    time_when_decelerate = _time_when_decelerate;
 }
 
-void Brick::rotateClockwise() {
-    std::vector<int> aux(matrix.size(), 0);
-
-    for (long unsigned int i = 0; i < matrix.size(); i++) {
-        aux[(size - i / size - 1) + (i % size) * size] = matrix[i];
-    }
-
-    matrix = aux;
+void Brick::setCurrentTime(float _current_time) {
+    current_time = _current_time;
 }
 
-void Brick::rotateAnticlockwise() {
-    std::vector<int> aux(matrix.size(), 0);
-
-    for (long unsigned int i = 0; i < matrix.size(); i++) {
-        aux[(i / size) + (size - i % size - 1) * size] = matrix[i];
-    }
-
-    matrix = aux;
-}
-
-int Brick::tryRotateClockwise() {
-    int done;
-    rotateClockwise();
-
-    if (wall->collided(this)) {
-        
-        for (int i = 1; i < size / 2 + 1; i++) {
-            done = tryGoRight(i);
-            
-            if (done) {
-                return 1;
-            }
-        }
-
-        for (int i = 1; i < size / 2 + 1; i++) {
-            done = tryGoLeft(i);
-            
-            if (done) {
-                return 1;
-            }
-        }
-
-        for (int i = 1; i < size / 2 + 1; i++) {
-            done = tryGoUp(i);
-            
-            if (done) {
-                return 1;
-            }
-        }
-
-        rotateAnticlockwise();
-    }
-
-    return 0;
-}
-
-int Brick::tryRotateAnticlockwise() {
-    int done;
-    rotateAnticlockwise();
-
-    if (wall->collided(this)) {
-        
-        for (int i = 1; i < size / 2 + 1; i++) {
-            done = tryGoRight(i);
-            
-            if (done) {
-                return 1;
-            }
-        }
-
-        for (int i = 1; i < size / 2 + 1; i++) {
-            done = tryGoLeft(i);
-            
-            if (done) {
-                return 1;
-            }
-        }
-
-        for (int i = 1; i < size / 2 + 1; i++) {
-            done = tryGoUp(i);
-            
-            if (done) {
-                return 1;
-            }
-        }
-
-        rotateClockwise();
-    }
-
-    return 0;
-}
-
-void Brick::accelerate() {
-    current_time = time_when_accelerate;
-}
-
-void Brick::decelerate() {
-    current_time = time_when_decelerate;
+void Brick::setMovementBehavior(MovementBehavior *_movement_behavior) {
+    movement_behavior = _movement_behavior;
 }
 
 void Brick::update(float delta) {
-    elapsed_time += delta;
-    
-    if (elapsed_time > current_time) {
-        elapsed_time = 0;
-
-        goDown();
-
-        if (wall->collided(this)) {
-            goUp();
-            wall->put(this);
-            wall->toScore();
-            reset();
-        }
-    }
+    movement_behavior->update(delta);
 }
 
 void Brick::reset() {
@@ -284,8 +126,6 @@ void Brick::reset() {
     position = sf::Vector2f(0, 0);
 
     size = 3;
-    
-    elapsed_time = 0.0;
 }
 
 void Brick::drawAt(sf::RenderWindow *window) {

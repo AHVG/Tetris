@@ -7,7 +7,10 @@
 
 App::App() {
     window = new sf::RenderWindow(sf::VideoMode(250, 500), "Tetris");
-    test_brick.setWall(&wall);
+    
+    movement_behavior.setWall(&wall);
+    movement_behavior.setBrick(&test_brick);
+    test_brick.setMovementBehavior(&movement_behavior);
 }
 
 App::~App() {
@@ -31,13 +34,17 @@ void App::handleEvent() {
 void App::handleUpdate() {
     sf::Time deltaTime = clock.restart();
     float delta = deltaTime.asSeconds();
+
     test_brick.update(delta);
+    wall.update(delta);
 }
 
 void App::handleRender() {
     window->clear();
+
     test_brick.drawAt(window);
     wall.drawAt(window);
+
     window->display();
 }
 

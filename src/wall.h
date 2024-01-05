@@ -29,6 +29,7 @@ public:
     std::vector<int> getCompleteLine();
     int toScore();
 
+    void update(float delta);
     void drawAt(sf::RenderWindow *window);
 };
 
