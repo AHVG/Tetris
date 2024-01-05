@@ -36,49 +36,11 @@ Brick::~Brick() {}
 
 void Brick::handleKeyPressed(sf::Keyboard::Key key_pressed) {
     if (key_pressed == sf::Keyboard::Up) {
-        rotateClockwise();
-
-        if (wall->crossedTheLimit(this) || wall->collidesWithOtherBricks(this)) {
-            goRight();
-
-            // Melhorar essa merda, tbm tem que ser feito de acordo com a metade do size
-            if (wall->crossedTheLimit(this) || wall->collidesWithOtherBricks(this)) {
-                goLeft();
-            } else {
-                return;
-            }
-
-            goLeft();
-
-            if (wall->crossedTheLimit(this) || wall->collidesWithOtherBricks(this)) {
-                goRight();
-            } else {
-                return;
-            }
-
-            position.y--;
-
-            if (wall->crossedTheLimit(this) || wall->collidesWithOtherBricks(this)) {
-                position.y++;
-            } else {
-                return;
-            }
-
-            rotateAnticlockwise();
-        }
-
+        tryRotateClockwise();
     } else if (key_pressed == sf::Keyboard::Right) {
-        goRight();
-    
-        if (wall->crossedTheLimit(this) || wall->collidesWithOtherBricks(this)) {
-            goLeft();
-        }
+        tryGoRight(1);
     } else if (key_pressed == sf::Keyboard::Left) {
-        goLeft();
-
-        if (wall->crossedTheLimit(this) || wall->collidesWithOtherBricks(this)) {
-            goRight();
-        }
+        tryGoLeft(1);
     } else if (key_pressed == sf::Keyboard::Down) {
         accelerate();
     }
@@ -114,6 +76,82 @@ void Brick::goLeft() {
     position.x--;
 }
 
+int Brick::tryGoRight(int steps) {
+    for (int i = 0; i < steps; i++) {
+        goRight();
+    }
+
+    if (wall->crossedTheLimit(this) || wall->collidesWithOtherBricks(this)) {
+        
+        for (int i = 0; i < steps; i++) {
+            goLeft();
+        }
+
+        return 0;
+    }
+
+    return 1;
+}
+
+int Brick::tryGoLeft(int steps) {
+    for (int i = 0; i < steps; i++) {
+        goLeft();
+    }
+
+    if (wall->crossedTheLimit(this) || wall->collidesWithOtherBricks(this)) {
+        
+        for (int i = 0; i < steps; i++) {
+            goRight();
+        }
+
+        return 0;
+    }
+
+    return 1;
+}
+
+void Brick::goUp() {
+    position.y--;
+}
+
+void Brick::goDown() {
+    position.y++;
+}
+
+int Brick::tryGoUp(int steps) {
+    for (int i = 0; i < steps; i++) {
+        goUp();
+    }
+
+    if (wall->crossedTheLimit(this) || wall->collidesWithOtherBricks(this)) {
+        
+        for (int i = 0; i < steps; i++) {
+            goDown();
+        }
+
+        return 0;
+    }
+
+    return 1;
+}
+
+int Brick::tryGoDown(int steps) {
+    for (int i = 0; i < steps; i++) {
+        goDown();
+    }
+
+    if (wall->crossedTheLimit(this) || wall->collidesWithOtherBricks(this)) {
+        
+        for (int i = 0; i < steps; i++) {
+            goUp();
+        }
+
+        return 0;
+    }
+
+    return 1;
+}
+
 void Brick::rotateClockwise() {
     std::vector<int> aux(matrix.size(), 0);
 
@@ -132,6 +170,78 @@ void Brick::rotateAnticlockwise() {
     }
 
     matrix = aux;
+}
+
+int Brick::tryRotateClockwise() {
+    int done;
+    rotateClockwise();
+
+    if (wall->crossedTheLimit(this) || wall->collidesWithOtherBricks(this)) {
+        
+        for (int i = 1; i < size / 2 + 1; i++) {
+            done = tryGoRight(i);
+            
+            if (done) {
+                return 1;
+            }
+        }
+
+        for (int i = 1; i < size / 2 + 1; i++) {
+            done = tryGoLeft(i);
+            
+            if (done) {
+                return 1;
+            }
+        }
+
+        for (int i = 1; i < size / 2 + 1; i++) {
+            done = tryGoUp(i);
+            
+            if (done) {
+                return 1;
+            }
+        }
+
+        rotateAnticlockwise();
+    }
+
+    return 0;
+}
+
+int Brick::tryRotateAnticlockwise() {
+    int done;
+    rotateAnticlockwise();
+
+    if (wall->crossedTheLimit(this) || wall->collidesWithOtherBricks(this)) {
+        
+        for (int i = 1; i < size / 2 + 1; i++) {
+            done = tryGoRight(i);
+            
+            if (done) {
+                return 1;
+            }
+        }
+
+        for (int i = 1; i < size / 2 + 1; i++) {
+            done = tryGoLeft(i);
+            
+            if (done) {
+                return 1;
+            }
+        }
+
+        for (int i = 1; i < size / 2 + 1; i++) {
+            done = tryGoUp(i);
+            
+            if (done) {
+                return 1;
+            }
+        }
+
+        rotateClockwise();
+    }
+
+    return 0;
 }
 
 void Brick::accelerate() {

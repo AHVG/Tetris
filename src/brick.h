@@ -71,9 +71,18 @@ public:
 
     void goRight();
     void goLeft();
+    int tryGoRight(int steps);
+    int tryGoLeft(int steps);
+
+    void goUp();
+    void goDown();
+    int tryGoUp(int steps);
+    int tryGoDown(int steps);
 
     void rotateClockwise();
     void rotateAnticlockwise();
+    int tryRotateClockwise();
+    int tryRotateAnticlockwise();
 
     void accelerate();
     void decelerate();
