@@ -16,6 +16,10 @@ Wall::Wall() {
 
 Wall::~Wall() {}
 
+int Wall::collided(Brick *brick) {
+    return crossedTheLimit(brick) || collidesWithOtherBricks(brick);
+}
+
 int Wall::crossedTheLimit(Brick *brick) {
     sf::Vector2f brick_position = brick->getPosition();
     std::vector<int> brick_matrix = brick->getMatrix();
@@ -70,6 +74,14 @@ void Wall::put(Brick *brick) {
             bricks[real_position.x + real_position.y * width] = 1;
         }
     }
+}
+
+int Wall::isThereCompleteLine() {
+    throw std::logic_error("TODO: isThereCompleteLine");
+}
+
+int Wall::toScore() {
+    throw std::logic_error("TODO: toScore");
 }
 
 void Wall::drawAt(sf::RenderWindow *window) {

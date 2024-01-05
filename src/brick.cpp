@@ -28,7 +28,7 @@ Brick::Brick() {
     
     elapsed_time = 0.0;
     time_when_decelerate = 1.0;
-    time_when_accelerate = time_when_decelerate / 10.0;
+    time_when_accelerate = time_when_decelerate / 20.0;
     current_time = time_when_decelerate;
 }
 
@@ -81,7 +81,7 @@ int Brick::tryGoRight(int steps) {
         goRight();
     }
 
-    if (wall->crossedTheLimit(this) || wall->collidesWithOtherBricks(this)) {
+    if (wall->collided(this)) {
         
         for (int i = 0; i < steps; i++) {
             goLeft();
@@ -98,7 +98,7 @@ int Brick::tryGoLeft(int steps) {
         goLeft();
     }
 
-    if (wall->crossedTheLimit(this) || wall->collidesWithOtherBricks(this)) {
+    if (wall->collided(this)) {
         
         for (int i = 0; i < steps; i++) {
             goRight();
@@ -123,7 +123,7 @@ int Brick::tryGoUp(int steps) {
         goUp();
     }
 
-    if (wall->crossedTheLimit(this) || wall->collidesWithOtherBricks(this)) {
+    if (wall->collided(this)) {
         
         for (int i = 0; i < steps; i++) {
             goDown();
@@ -140,7 +140,7 @@ int Brick::tryGoDown(int steps) {
         goDown();
     }
 
-    if (wall->crossedTheLimit(this) || wall->collidesWithOtherBricks(this)) {
+    if (wall->collided(this)) {
         
         for (int i = 0; i < steps; i++) {
             goUp();
@@ -176,7 +176,7 @@ int Brick::tryRotateClockwise() {
     int done;
     rotateClockwise();
 
-    if (wall->crossedTheLimit(this) || wall->collidesWithOtherBricks(this)) {
+    if (wall->collided(this)) {
         
         for (int i = 1; i < size / 2 + 1; i++) {
             done = tryGoRight(i);
@@ -212,7 +212,7 @@ int Brick::tryRotateAnticlockwise() {
     int done;
     rotateAnticlockwise();
 
-    if (wall->crossedTheLimit(this) || wall->collidesWithOtherBricks(this)) {
+    if (wall->collided(this)) {
         
         for (int i = 1; i < size / 2 + 1; i++) {
             done = tryGoRight(i);
@@ -258,10 +258,10 @@ void Brick::update(float delta) {
     if (elapsed_time > current_time) {
         elapsed_time = 0;
 
-        position.y++;
+        goDown();
 
-        if (wall->crossedTheLimit(this) || wall->collidesWithOtherBricks(this)) {
-            position.y--;
+        if (wall->collided(this)) {
+            goUp();
             wall->put(this);
             reset();
         }
@@ -285,14 +285,10 @@ void Brick::reset() {
     size = 3;
     
     elapsed_time = 0.0;
-    time_when_decelerate = 1.0;
-    time_when_accelerate = time_when_decelerate / 6.0;
-    current_time = time_when_decelerate;
 }
 
 void Brick::drawAt(sf::RenderWindow *window) {
     for (long unsigned int i = 0; i < matrix.size(); i++) {
-        
         if (matrix[i]) {
             shape.setPosition(sf::Vector2f(position.x * brick_size, position.y * brick_size) + sf::Vector2f((i % size) * brick_size, (i / size) * brick_size));
             window->draw(shape);

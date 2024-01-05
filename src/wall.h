@@ -21,11 +21,13 @@ public:
     Wall();
     ~Wall();
 
-    // Ter apenas o collidesWithOtherBricks
+    int collided(Brick *brick);
     int collidesWithOtherBricks(Brick *brick);
     int crossedTheLimit(Brick *brick);
 
     void put(Brick *brick);
+    int isThereCompleteLine();
+    int toScore();
 
     void drawAt(sf::RenderWindow *window);
 };
