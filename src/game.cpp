@@ -5,8 +5,7 @@
 #include "constants.h"
 
 
-Game::Game() {
-    window = new sf::RenderWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Tetris");
+Game::Game() : window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Tetris") {
     first_exchange = 1;
     score = 0;
 
@@ -15,7 +14,6 @@ Game::Game() {
 }
 
 Game::~Game() {
-    delete window;
 }
 
 int Game::tryRotateClockwiseTetromino() {
@@ -180,7 +178,7 @@ void Game::changeTetromino() {
         saved_tetromino = aux;
     }
     
-    current_tetromino.setPosition(sf::Vector2i(0, 0));
+    current_tetromino.setPosition(sf::Vector2i(4, 0));
 }
 
 void Game::generateTetromino() {
@@ -188,7 +186,7 @@ void Game::generateTetromino() {
     next_tetromino = tetromino_generator.generate();
     
     if (wall.collide(current_tetromino)) {
-        window->close();
+        window.close();
     }
 }
 
@@ -200,9 +198,9 @@ void Game::toScore() {
 void Game::handleEvent() {
     sf::Event event;
 
-    while (window->pollEvent(event)) {
+    while (window.pollEvent(event)) {
         if (event.type == sf::Event::Closed) {
-            window->close();
+            window.close();
         } else if (event.type == sf::Event::KeyPressed) {
             if (event.key.code == sf::Keyboard::Up) {
                 tryRotateClockwiseTetromino();
@@ -242,16 +240,16 @@ void Game::handleUpdate() {
 }
 
 void Game::handleRender() {
-    window->clear();
+    window.clear();
 
-    current_tetromino.render(*window);
-    wall.render(*window);
+    current_tetromino.render(window);
+    wall.render(window);
 
-    window->display();
+    window.display();
 }
 
 void Game::run() {
-    while (window->isOpen()) {
+    while (window.isOpen()) {
         handleEvent();
         handleUpdate();
         handleRender();

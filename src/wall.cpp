@@ -124,19 +124,26 @@ int Wall::collide(Tetromino tetromino) {
 
 void Wall::render(sf::RenderWindow &window) {
     sf::RectangleShape shape;
-    shape.setSize(sf::Vector2f(TETROMINO_SIZE - TETROMINO_GAP, TETROMINO_SIZE - TETROMINO_GAP));
+    shape.setSize(sf::Vector2f(TETROMINO_SIZE - WALL_GAP, TETROMINO_SIZE - WALL_GAP));
 
     shape.setFillColor(sf::Color(156, 31, 46));
-    
+
+    shape.setOutlineThickness(WALL_GAP);
+    shape.setOutlineColor(sf::Color(200, 200, 200));
+
     for (int line = 0; line < 23; line++) {
-        for (int column = 0; column < 24; column++) {
+        for (int column = 0; column < 28; column++) {
             if(WALL_AROUND[line][column] == '#') {
                 shape.setPosition(sf::Vector2f(column * TETROMINO_SIZE, line * TETROMINO_SIZE) + 
-                                sf::Vector2f(MARGIN_X - 7 * TETROMINO_SIZE, MARGIN_Y) + sf::Vector2f(TETROMINO_GAP, TETROMINO_GAP));
+                                sf::Vector2f(MARGIN_X - 9 * TETROMINO_SIZE, MARGIN_Y) + sf::Vector2f(WALL_GAP, WALL_GAP));
                 window.draw(shape);
             }
         }
     }
+
+
+    shape.setSize(sf::Vector2f(TETROMINO_SIZE - TETROMINO_GAP, TETROMINO_SIZE - TETROMINO_GAP));
+    shape.setOutlineThickness(0.0);
 
     for (long unsigned int i = 0; i < tetrominos.size(); i++) {
         if (tetrominos[i]) {

@@ -16,7 +16,7 @@ private:
     void handleUpdate();
     void handleRender();
 
-    sf::RenderWindow *window;
+    sf::RenderWindow window;
     sf::Clock clock;
 
     TetrominoGenerator tetromino_generator;

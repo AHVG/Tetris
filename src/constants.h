@@ -14,6 +14,7 @@ extern const float TETROMINO_GAP;
 
 extern const float WALL_WIDTH;
 extern const float WALL_HEIGHT;
+extern const float WALL_GAP;
 
 extern const float WINDOW_WIDTH;
 extern const float WINDOW_HEIGHT;
