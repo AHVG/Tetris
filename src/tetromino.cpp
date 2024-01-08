@@ -1,6 +1,10 @@
 #include "tetromino.h"
 
 
+Tetromino::Tetromino() {}
+
+Tetromino::~Tetromino() {}
+
 void Tetromino::setPosition(sf::Vector2i new_position) {
     position = new_position;
 }

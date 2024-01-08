@@ -17,6 +17,9 @@ private:
 
 public:
 
+    Wall();
+    ~Wall();
+
     void setTetrominos(std::vector<int> new_bricks);
 
     std::vector<int> getTetrominos() const;
@@ -27,7 +30,9 @@ public:
     int toScore();
 
     int collide(Tetromino tetromino);
-
+    int collidesWithOtherTetrominos(Tetromino tetromino);
+    int crossedTheLimit(Tetromino tetromino);
+    
     void render(sf::RenderWindow &window) const;
 
 };

@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "tetromino_generator.h"
 #include "tetromino.h"
 #include "wall.h"
 
@@ -18,7 +19,10 @@ private:
     sf::RenderWindow *window;
     sf::Clock clock;
 
+    TetrominoGenerator tetromino_generator;
+
     Tetromino current_tetromino;
+    Tetromino next_tetromino;
     Tetromino saved_tetromino;
 
     Wall wall;
@@ -34,6 +38,8 @@ private:
     void hardDrop();
     void accelerateTetromino();
     void decelerateTetromino();
+
+    void changeTetromino();
 
 public:
 

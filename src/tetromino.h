@@ -14,6 +14,9 @@ private:
 
 public:
 
+    Tetromino();
+    ~Tetromino();
+
     void setPosition(sf::Vector2i new_position);
     void setMatrix(std::vector<int> new_matrix);
     void setSize(int new_size);

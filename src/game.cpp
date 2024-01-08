@@ -160,7 +160,11 @@ void Game::accelerateTetromino() {
 }
 
 void Game::decelerateTetromino() {
-    
+
+}
+
+void Game::changeTetromino() {
+
 }
 
 void Game::handleEvent() {
