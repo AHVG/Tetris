@@ -41,7 +41,7 @@ private:
     int tryMoveRightTetromino(int steps);
     int tryMoveDownTetromino(int steps);
 
-    void hardDrop();
+    void hardDropTetromino();
     void accelerateTetromino();
     void decelerateTetromino();
 

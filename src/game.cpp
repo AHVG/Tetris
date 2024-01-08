@@ -158,7 +158,10 @@ int Game::tryMoveDownTetromino(int steps) {
     return 1;
 }
 
-void Game::hardDrop() {}
+void Game::hardDropTetromino() {
+    while (tryMoveDownTetromino(1));
+    elapsed_time = 10000;
+}
 
 void Game::accelerateTetromino() {}
 
@@ -192,6 +195,10 @@ void Game::handleEvent() {
                 tryMoveLeftTetromino(1);
             } else if (event.key.code == sf::Keyboard::Down) {
                 accelerateTetromino();
+            } else if (event.key.code == sf::Keyboard::Space) {
+                hardDropTetromino();
+            } else if (event.key.code == sf::Keyboard::C) {
+                changeTetromino();
             }
         } else if (event.type == sf::Event::KeyReleased) {
             if (event.key.code == sf::Keyboard::Down) {
