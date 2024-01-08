@@ -3,12 +3,8 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "brick.h"
-#include "wall.h"
-#include "movement_behavior.h"
 
-
-class App {
+class Game {
 
 private:
 
@@ -18,14 +14,11 @@ private:
 
     sf::RenderWindow *window;
     sf::Clock clock;
-    Brick test_brick;
-    Wall wall;
-    MovementBehavior movement_behavior;
 
 public:
 
-    App();
-    ~App();
+    Game();
+    ~Game();
 
     void run();
 
