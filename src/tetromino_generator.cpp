@@ -21,7 +21,7 @@ Tetromino TetrominoGenerator::generate() {
     generated_tetromino.setShape(tetromino_shape);
     generated_tetromino.setMatrix(TETROMINOS_MATRIX[chosen_tetromino]);
     generated_tetromino.setSize(TETROMINOS_MATRIX_SIZES[chosen_tetromino]);
-    generated_tetromino.setPosition(sf::Vector2i(0, 0));
+    generated_tetromino.setPosition(TETROMINOS_INITIAL_POSITION[chosen_tetromino]);
 
     return generated_tetromino;
 }

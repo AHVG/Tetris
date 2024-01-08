@@ -46,6 +46,8 @@ private:
     void decelerateTetromino();
 
     void changeTetromino();
+    void generateTetromino();
+    void toScore();
 
 public:
 

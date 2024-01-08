@@ -160,7 +160,7 @@ int Game::tryMoveDownTetromino(int steps) {
 
 void Game::hardDropTetromino() {
     while (tryMoveDownTetromino(1));
-    elapsed_time = 10000;
+    elapsed_time = 10000; // Gambiarra para atualizar na hora
 }
 
 void Game::accelerateTetromino() {}
@@ -181,6 +181,20 @@ void Game::changeTetromino() {
     }
     
     current_tetromino.setPosition(sf::Vector2i(0, 0));
+}
+
+void Game::generateTetromino() {
+    current_tetromino = next_tetromino;
+    next_tetromino = tetromino_generator.generate();
+    
+    if (wall.collide(current_tetromino)) {
+        window->close();
+    }
+}
+
+void Game::toScore() {
+    wall.put(current_tetromino);
+    score += wall.toScore();
 }
 
 void Game::handleEvent() {
@@ -217,20 +231,12 @@ void Game::handleUpdate() {
 
     elapsed_time += delta;
 
-    if (elapsed_time > 0.2) {
+    if (elapsed_time > 1) {
         elapsed_time = 0;
 
         if(!tryMoveDownTetromino(1)) {
-            wall.put(current_tetromino);
-            score += wall.toScore();
-
-            current_tetromino = next_tetromino;
-            next_tetromino = tetromino_generator.generate();
-            
-            // TODO: Melhorar
-            if (wall.collide(current_tetromino)) {
-                window->close();
-            }
+            toScore();
+            generateTetromino();
         }
     }
 }
