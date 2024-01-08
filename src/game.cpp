@@ -193,11 +193,13 @@ void Game::handleUpdate() {
 
     elapsed_time += delta;
 
-    if (elapsed_time > 1) {
+    if (elapsed_time > 0.2) {
         elapsed_time = 0;
 
         if(!tryMoveDownTetromino(1)) {
+            wall.put(current_tetromino);
             score += wall.toScore();
+
             current_tetromino = next_tetromino;
             next_tetromino = tetromino_generator.generate();
         }
