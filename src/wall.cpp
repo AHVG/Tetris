@@ -5,7 +5,11 @@
 #include "constants.h"
 
 
-Wall::Wall() {}
+Wall::Wall() {
+    for (int i = 0; i < WIDTH * HEIGHT; i++) {
+        tetrominos.push_back(0);
+    }
+}
 
 Wall::~Wall() {}
 
@@ -58,8 +62,6 @@ int Wall::collidesWithOtherTetrominos(Tetromino tetromino) {
             continue;
         }
 
-        tetrominos[real_position.x + real_position.y * WIDTH];
-        tetromino_matrix[i];
 
         if (tetrominos[real_position.x + real_position.y * WIDTH] && tetromino_matrix[i]) { 
             return 1;

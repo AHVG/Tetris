@@ -29,7 +29,7 @@ private:
 
     int first_exchange;
 
-    int elapsed_time;
+    float elapsed_time;
 
     int score;
 

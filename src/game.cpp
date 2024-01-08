@@ -196,11 +196,11 @@ void Game::handleUpdate() {
     if (elapsed_time > 1) {
         elapsed_time = 0;
 
-        // if(!tryMoveDownTetromino(1)) {
-        //     score += wall.toScore();
-        //     current_tetromino = next_tetromino;
-        //     next_tetromino = tetromino_generator.generate();
-        // }
+        if(!tryMoveDownTetromino(1)) {
+            score += wall.toScore();
+            current_tetromino = next_tetromino;
+            next_tetromino = tetromino_generator.generate();
+        }
     }
 }
 
