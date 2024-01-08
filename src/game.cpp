@@ -172,12 +172,15 @@ void Game::changeTetromino() {
         saved_tetromino = current_tetromino;
         current_tetromino = next_tetromino;
         next_tetromino = tetromino_generator.generate();
+        first_exchange = 0;
     } else {
         Tetromino aux;
         aux = current_tetromino;
         current_tetromino = saved_tetromino;
         saved_tetromino = aux;
     }
+    
+    current_tetromino.setPosition(sf::Vector2i(0, 0));
 }
 
 void Game::handleEvent() {

@@ -126,6 +126,37 @@ void Wall::render(sf::RenderWindow &window) {
     sf::RectangleShape shape;
     shape.setSize(sf::Vector2f(TETROMINO_SIZE - TETROMINO_GAP, TETROMINO_SIZE - TETROMINO_GAP));
 
+    for (int i = 0; i < 3; i++) {
+        shape.setFillColor(sf::Color(156, 31, 46));
+
+        for (int j = 0; j < 23; j++) {
+            shape.setPosition(sf::Vector2f(i * TETROMINO_SIZE, j * TETROMINO_SIZE) + 
+                                sf::Vector2f(MARGIN - 3 * TETROMINO_SIZE, MARGIN) + sf::Vector2f(TETROMINO_GAP, TETROMINO_GAP));
+            window.draw(shape);
+        }
+    }
+
+    for (int i = 0; i < 10; i++) {
+        shape.setFillColor(sf::Color(156, 31, 46));
+
+        for (int j = 0; j < 3; j++) {
+            shape.setPosition(sf::Vector2f(i * TETROMINO_SIZE, j * TETROMINO_SIZE) + 
+                                sf::Vector2f(MARGIN, MARGIN + TETROMINO_SIZE * WALL_HEIGHT) + sf::Vector2f(TETROMINO_GAP, TETROMINO_GAP));
+            window.draw(shape);
+        }
+    }
+
+    for (int i = 0; i < 3; i++) {
+        shape.setFillColor(sf::Color(156, 31, 46));
+
+        for (int j = 0; j < 23; j++) {
+            shape.setPosition(sf::Vector2f(i * TETROMINO_SIZE, j * TETROMINO_SIZE) + 
+                                sf::Vector2f(MARGIN + WALL_WIDTH * TETROMINO_SIZE, MARGIN) + sf::Vector2f(TETROMINO_GAP, TETROMINO_GAP));
+            window.draw(shape);
+        }
+    }
+
+
     for (long unsigned int i = 0; i < tetrominos.size(); i++) {
         if (tetrominos[i]) {
             shape.setFillColor(TETROMINOS_COLOR[tetrominos[i] - 1]);
