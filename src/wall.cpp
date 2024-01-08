@@ -20,4 +20,8 @@ int Wall::toScore() {
     return 0;
 }
 
+int collide(Tetromino tetromino) {
+    
+}
+
 void Wall::render(sf::RenderWindow &window) const {}

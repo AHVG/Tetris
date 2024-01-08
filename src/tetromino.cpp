@@ -13,7 +13,6 @@ void Tetromino::setSize(int new_size) {
     size = new_size;
 }
 
-
 sf::Vector2i Tetromino::getPosition() const {
     return position;
 }
@@ -28,6 +27,22 @@ int Tetromino::getSize() const {
 
 void Tetromino::move(sf::Vector2i value) {
     position += value;
+}
+
+void Tetromino::moveUp() {
+    move(sf::Vector2i(0, -1));
+}
+
+void Tetromino::moveDown() {
+    move(sf::Vector2i(0, 1));
+}
+
+void Tetromino::moveLeft() {
+    move(sf::Vector2i(-1, 0));
+}
+
+void Tetromino::moveRight() {
+    move(sf::Vector2i(1, 0));
 }
 
 void Tetromino::rotateClockwise() {

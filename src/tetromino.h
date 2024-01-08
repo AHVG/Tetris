@@ -23,6 +23,10 @@ public:
     int getSize() const;
 
     void move(sf::Vector2i value);
+    void moveUp();
+    void moveDown();
+    void moveLeft();
+    void moveRight();
 
     void rotateClockwise();
     void rotateAnticlockwise();

@@ -3,6 +3,9 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "tetromino.h"
+#include "wall.h"
+
 
 class Game {
 
@@ -14,6 +17,23 @@ private:
 
     sf::RenderWindow *window;
     sf::Clock clock;
+
+    Tetromino current_tetromino;
+    Tetromino saved_tetromino;
+
+    Wall wall;
+
+    // Encapsular numa classe? Pode ser, mas fica tão simples aqui
+    int tryRotateClockwiseTetromino();
+    int tryRotateAnticlockwiseTetromino();
+    int tryMoveUpTetromino(int steps);
+    int tryMoveLeftTetromino(int steps);
+    int tryMoveRightTetromino(int steps);
+    int tryMoveDownTetromino(int steps);
+
+    void hardDrop();
+    void accelerateTetromino();
+    void decelerateTetromino();
 
 public:
 

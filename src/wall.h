@@ -26,6 +26,8 @@ public:
     std::vector<int> getFullLines() const;
     int toScore();
 
+    int collide(Tetromino tetromino);
+
     void render(sf::RenderWindow &window) const;
 
 };
