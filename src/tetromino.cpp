@@ -83,7 +83,8 @@ void Tetromino::render(sf::RenderWindow &window) {
     for (long unsigned int i = 0; i < matrix.size(); i++) {
         if (matrix[i]) {
             shape.setPosition(sf::Vector2f(position.x * TETROMINO_SIZE,
-             position.y * TETROMINO_SIZE) + sf::Vector2f((i % size) * TETROMINO_SIZE, (i / size) * TETROMINO_SIZE));
+                              position.y * TETROMINO_SIZE) + sf::Vector2f((i % size) * TETROMINO_SIZE, (i / size) * TETROMINO_SIZE) + 
+                              sf::Vector2f(MARGIN, MARGIN) + sf::Vector2f(TETROMINO_GAP, TETROMINO_GAP));
             window.draw(shape);
         }
     }

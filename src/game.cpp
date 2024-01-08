@@ -223,6 +223,11 @@ void Game::handleUpdate() {
 
             current_tetromino = next_tetromino;
             next_tetromino = tetromino_generator.generate();
+            
+            // TODO: Melhorar
+            if (wall.collide(current_tetromino)) {
+                window->close();
+            }
         }
     }
 }
