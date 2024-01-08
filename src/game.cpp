@@ -195,6 +195,42 @@ void Game::toScore() {
     score += wall.toScore();
 }
 
+void Game::renderNextTetromino() {
+    sf::RectangleShape shape = next_tetromino.getShape();
+    std::vector<int> matrix = next_tetromino.getMatrix();
+
+    sf::Vector2f center(WINDOW_WIDTH - 5.5 * TETROMINO_SIZE, MARGIN_Y + 4.5 * TETROMINO_SIZE);
+    center -= sf::Vector2f((float(next_tetromino.getSize()) / 2.0 * TETROMINO_SIZE), (float(next_tetromino.getSize()) / 2.0 * TETROMINO_SIZE));
+    
+    for (unsigned long int i = 0; i < matrix.size(); i++) {
+        if (matrix[i]) {
+            shape.setPosition(sf::Vector2f((i % next_tetromino.getSize()) * TETROMINO_SIZE, (i / next_tetromino.getSize()) * TETROMINO_SIZE) + 
+                              center);
+            window.draw(shape);
+        }
+    }
+}
+
+void Game::renderSavedTetromino() {
+    if (first_exchange) {
+        return;
+    }
+
+    sf::RectangleShape shape = saved_tetromino.getShape();
+    std::vector<int> matrix = saved_tetromino.getMatrix();
+
+    sf::Vector2f center(5.5 * TETROMINO_SIZE, MARGIN_Y + 4.5 * TETROMINO_SIZE);
+    center -= sf::Vector2f((float(saved_tetromino.getSize()) / 2.0 * TETROMINO_SIZE), (float(saved_tetromino.getSize()) / 2.0 * TETROMINO_SIZE));
+    
+    for (unsigned long int i = 0; i < matrix.size(); i++) {
+        if (matrix[i]) {
+            shape.setPosition(sf::Vector2f((i % saved_tetromino.getSize()) * TETROMINO_SIZE, (i / saved_tetromino.getSize()) * TETROMINO_SIZE) + 
+                              center);
+            window.draw(shape);
+        }
+    }
+}
+
 void Game::handleEvent() {
     sf::Event event;
 
@@ -242,6 +278,8 @@ void Game::handleUpdate() {
 void Game::handleRender() {
     window.clear();
 
+    renderNextTetromino();
+    renderSavedTetromino();
     current_tetromino.render(window);
     wall.render(window);
 
