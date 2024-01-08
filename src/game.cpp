@@ -183,6 +183,20 @@ void Game::handleEvent() {
     while (window->pollEvent(event)) {
         if (event.type == sf::Event::Closed) {
             window->close();
+        } else if (event.type == sf::Event::KeyPressed) {
+            if (event.key.code == sf::Keyboard::Up) {
+                tryRotateClockwiseTetromino();
+            } else if (event.key.code == sf::Keyboard::Right) {
+                tryMoveRightTetromino(1);
+            } else if (event.key.code == sf::Keyboard::Left) {
+                tryMoveLeftTetromino(1);
+            } else if (event.key.code == sf::Keyboard::Down) {
+                accelerateTetromino();
+            }
+        } else if (event.type == sf::Event::KeyReleased) {
+            if (event.key.code == sf::Keyboard::Down) {
+                decelerateTetromino();
+            }
         }
     }
 }
