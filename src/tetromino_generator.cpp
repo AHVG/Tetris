@@ -3,6 +3,7 @@
 #include <utility>
 
 #include "tetromino_generator.h"
+#include "constants.h"
 
 
 Tetromino TetrominoGenerator::generate() {
@@ -21,6 +22,11 @@ Tetromino TetrominoGenerator::generate() {
 
     Tetromino generated_tetromino;
 
+    sf::RectangleShape tetromino_shape;
+    tetromino_shape.setSize(sf::Vector2f(TETROMINO_SIZE, TETROMINO_SIZE));
+    tetromino_shape.setFillColor(sf::Color::Green);
+
+    generated_tetromino.setShape(tetromino_shape);
     generated_tetromino.setMatrix(tetrominos[chosen_brick].first);
     generated_tetromino.setSize(tetrominos[chosen_brick].second);
     generated_tetromino.setPosition(sf::Vector2i(0, 0));

@@ -14,7 +14,6 @@ private:
 
     std::vector<int> tetrominos;
 
-
 public:
 
     Wall();
@@ -33,7 +32,7 @@ public:
     int collidesWithOtherTetrominos(Tetromino tetromino);
     int crossedTheLimit(Tetromino tetromino);
     
-    void render(sf::RenderWindow &window) const;
+    void render(sf::RenderWindow &window);
 
 };
 

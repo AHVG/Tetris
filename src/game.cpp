@@ -1,4 +1,6 @@
 
+#include <iostream>
+
 #include "game.h"
 #include "constants.h"
 
@@ -143,7 +145,7 @@ int Game::tryMoveDownTetromino(int steps) {
     for (int i = 0; i < steps; i++) {
         current_tetromino.moveDown();
     }
-
+    
     if (wall.collide(current_tetromino)) {
         
         for (int i = 0; i < steps; i++) {
@@ -194,11 +196,11 @@ void Game::handleUpdate() {
     if (elapsed_time > 1) {
         elapsed_time = 0;
 
-        if(!tryMoveDownTetromino(1)) {
-            score += wall.toScore();
-            current_tetromino = next_tetromino;
-            next_tetromino = tetromino_generator.generate();
-        }
+        // if(!tryMoveDownTetromino(1)) {
+        //     score += wall.toScore();
+        //     current_tetromino = next_tetromino;
+        //     next_tetromino = tetromino_generator.generate();
+        // }
     }
 }
 

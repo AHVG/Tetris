@@ -1,9 +1,15 @@
+
 #include "tetromino.h"
+#include "constants.h"
 
 
 Tetromino::Tetromino() {}
 
 Tetromino::~Tetromino() {}
+
+void Tetromino::setShape(sf::RectangleShape new_shape) {
+    shape = new_shape;
+}
 
 void Tetromino::setPosition(sf::Vector2i new_position) {
     position = new_position;
@@ -15,6 +21,10 @@ void Tetromino::setMatrix(std::vector<int> new_matrix) {
 
 void Tetromino::setSize(int new_size) {
     size = new_size;
+}
+
+sf::RectangleShape Tetromino::getShape() const {
+    return shape;
 }
 
 sf::Vector2i Tetromino::getPosition() const {
@@ -69,6 +79,12 @@ void Tetromino::rotateAnticlockwise() {
     setMatrix(aux);
 }
 
-void Tetromino::render(sf::RenderWindow &window) const {
-    
+void Tetromino::render(sf::RenderWindow &window) {
+    for (long unsigned int i = 0; i < matrix.size(); i++) {
+        if (matrix[i]) {
+            shape.setPosition(sf::Vector2f(position.x * TETROMINO_SIZE,
+             position.y * TETROMINO_SIZE) + sf::Vector2f((i % size) * TETROMINO_SIZE, (i / size) * TETROMINO_SIZE));
+            window.draw(shape);
+        }
+    }
 }
