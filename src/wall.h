@@ -5,34 +5,35 @@
 
 #include <vector>
 
-#include "brick.h"
-#include "entity.h"
-
-class Brick;
+#include "tetromino.h"
 
 
-class Wall : public Entity{
+class Wall {
 
 private:
 
-    std::vector<int> bricks;
+    std::vector<int> tetrominos;
 
 public:
 
     Wall();
     ~Wall();
 
-    int collided(Brick *brick);
-    int collidesWithOtherBricks(Brick *brick);
-    int crossedTheLimit(Brick *brick);
+    void setTetrominos(std::vector<int> new_bricks);
 
-    void put(Brick *brick);
-    std::vector<int> getCompleteLine();
+    std::vector<int> getTetrominos() const;
+
+    void put(Tetromino tetromino);
+
+    std::vector<int> getFullLines() const;
     int toScore();
 
-    void update(float delta);
-    void drawAt(sf::RenderWindow *window);
-};
+    int collide(Tetromino tetromino);
+    int collidesWithOtherTetrominos(Tetromino tetromino);
+    int crossedTheLimit(Tetromino tetromino);
+    
+    void render(sf::RenderWindow &window);
 
+};
 
 #endif

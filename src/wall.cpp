@@ -1,96 +1,59 @@
-#include <SFML/Graphics.hpp>
 
 #include <iostream>
-#include <stdexcept>
-#include <vector>
 
 #include "wall.h"
 #include "constants.h"
 
 
 Wall::Wall() {
-    for (int i = 0; i < width * height; i++) {
-        bricks.push_back(0);
+    for (int i = 0; i < WALL_WIDTH * WALL_HEIGHT; i++) {
+        tetrominos.push_back(0);
     }
 }
 
 Wall::~Wall() {}
 
-int Wall::collided(Brick *brick) {
-    return crossedTheLimit(brick) || collidesWithOtherBricks(brick);
+void Wall::setTetrominos(std::vector<int> new_tetrominos) {
+    tetrominos = new_tetrominos;
 }
 
-int Wall::crossedTheLimit(Brick *brick) {
-    sf::Vector2f brick_position = brick->getPosition();
-    std::vector<int> brick_matrix = brick->getMatrix();
-
-
-    for (unsigned long int i = 0; i < brick_matrix.size(); i++) {
-        sf::Vector2f relative_position(i % brick->getSize(), i / brick->getSize());
-        sf::Vector2f real_position = relative_position + brick_position;
-
-        if ((real_position.x < 0 || real_position.x >= width || real_position.y < 0 || real_position.y >= height) &&
-            (brick_matrix[i])) {
-            return 1;
-        }
-    }
-
-    return 0;
+std::vector<int> Wall::getTetrominos() const {
+    return tetrominos;
 }
 
-int Wall::collidesWithOtherBricks(Brick *brick) {
-    sf::Vector2f brick_position = brick->getPosition();
-    std::vector<int> brick_matrix = brick->getMatrix();
+void Wall::put(Tetromino tetromino) {
+    sf::Vector2i tetromino_position = tetromino.getPosition();
+    std::vector<int> tetromino_matrix = tetromino.getMatrix();
 
-    for (unsigned long int i = 0; i < brick_matrix.size(); i++) {
-        sf::Vector2f relative_position(i % brick->getSize(), i / brick->getSize());
-        sf::Vector2f real_position = relative_position + brick_position;
-
-        if (real_position.x < 0 || real_position.x >= width || real_position.y < 0 || real_position.y >= height) {
-            continue;
-        }
-
-        if (bricks[real_position.x + real_position.y * width] && brick_matrix[i]) {
-            return 1;
-        }
-    }
-
-    return 0;
-}
-
-void Wall::put(Brick *brick) {
-    sf::Vector2f brick_position = brick->getPosition();
-    std::vector<int> brick_matrix = brick->getMatrix();
-
-    for (unsigned long int i = 0; i < brick_matrix.size(); i++) {
-        sf::Vector2f relative_position(i % brick->getSize(), i / brick->getSize());
-        sf::Vector2f real_position = relative_position + brick_position;
+    for (unsigned long int i = 0; i < tetromino_matrix.size(); i++) {
+        sf::Vector2i relative_position(i % tetromino.getSize(), i / tetromino.getSize());
+        sf::Vector2i real_position = relative_position + tetromino_position;
         
-        if (real_position.x < 0 || real_position.x >= width || real_position.y < 0 || real_position.y >= height) {
+        if (real_position.x < 0 || real_position.x >= WALL_WIDTH || real_position.y < 0 || real_position.y >= WALL_HEIGHT) {
             continue;
         }
 
-        if (brick_matrix[i]) {
-            bricks[real_position.x + real_position.y * width] = 1;
+        if (tetromino_matrix[i]) {
+            tetrominos[real_position.x + real_position.y * WALL_WIDTH] = tetromino_matrix[i];
         }
     }
 }
 
-std::vector<int> Wall::getCompleteLine() {
+std::vector<int> Wall::getFullLines() const {
     std::vector<int> lines;
 
-    for (int i = 0; i < height; i++) {
+    for (int i = 0; i < WALL_HEIGHT; i++) {
         int number_of_elements_with_one = 0;
 
-        for (int j = 0; j < width; j++) {
-            if (bricks[i * width + j]) {
+        for (int j = 0; j < WALL_WIDTH; j++) {
+            if (tetrominos[i * WALL_WIDTH + j]) {
                 number_of_elements_with_one++;
             } else {
                 break;
             }
         }
 
-        if (number_of_elements_with_one == width) {
+        if (number_of_elements_with_one == WALL_WIDTH) {
             lines.push_back(i);
         }
     }
@@ -100,15 +63,15 @@ std::vector<int> Wall::getCompleteLine() {
 
 int Wall::toScore() {
     std::vector<int> lines;
-    lines = getCompleteLine();
+    lines = getFullLines();
 
     for (unsigned long int i = 0; i < lines.size(); i++) {
         int line = lines[i];
     
         for (int k = line; k > 0; k--) {
 
-            for (int j = 0; j < width; j++) {
-                bricks[k * width + j] = bricks[(k - 1) * width + j];
+            for (int j = 0; j < WALL_WIDTH; j++) {
+                tetrominos[k * WALL_WIDTH + j] = tetrominos[(k - 1) * WALL_WIDTH + j];
             }
         }
     }
@@ -116,19 +79,90 @@ int Wall::toScore() {
     return lines.size();
 }
 
-void Wall::update(float delta) {
-    toScore();
+int Wall::crossedTheLimit(Tetromino tetromino) {
+    sf::Vector2i tetromino_position = tetromino.getPosition();
+    std::vector<int> tetromino_matrix = tetromino.getMatrix();
+
+
+    for (unsigned long int i = 0; i < tetromino_matrix.size(); i++) {
+        sf::Vector2i relative_position(i % tetromino.getSize(), i / tetromino.getSize());
+        sf::Vector2i real_position = relative_position + tetromino_position;
+
+        if ((real_position.x < 0 || real_position.x >= WALL_WIDTH || real_position.y < 0 || real_position.y >= WALL_HEIGHT) &&
+            (tetromino_matrix[i])) {
+            return 1;
+        }
+    }
+
+    return 0;
 }
 
-void Wall::drawAt(sf::RenderWindow *window) {
-    sf::RectangleShape shape;
-    shape.setFillColor(sf::Color::Blue);
-    shape.setSize(sf::Vector2f(brick_size, brick_size));
+int Wall::collidesWithOtherTetrominos(Tetromino tetromino) {
+    sf::Vector2i tetromino_position = tetromino.getPosition();
+    std::vector<int> tetromino_matrix = tetromino.getMatrix();
 
-    for (long unsigned int i = 0; i < bricks.size(); i++) {
-        if (bricks[i]) {
-            shape.setPosition(sf::Vector2f((float(i % int(width))) * brick_size, (int(i / int(width))) * brick_size));
-            window->draw(shape);
+    
+    for (unsigned long int i = 0; i < tetromino_matrix.size(); i++) {
+        sf::Vector2i relative_position(i % tetromino.getSize(), i / tetromino.getSize());
+        sf::Vector2i real_position = relative_position + tetromino_position;
+
+        if (real_position.x < 0 || real_position.x >= WALL_WIDTH || real_position.y < 0 || real_position.y >= WALL_HEIGHT) {
+            continue;
+        }
+
+        if (tetrominos[real_position.x + real_position.y * WALL_WIDTH] && tetromino_matrix[i]) { 
+            return 1;
+        }
+    }
+
+    return 0;
+}
+
+int Wall::collide(Tetromino tetromino) {
+    return crossedTheLimit(tetromino) || collidesWithOtherTetrominos(tetromino);
+}
+
+void Wall::render(sf::RenderWindow &window) {
+    sf::RectangleShape shape;
+    shape.setSize(sf::Vector2f(TETROMINO_SIZE - TETROMINO_GAP, TETROMINO_SIZE - TETROMINO_GAP));
+
+    for (int i = 0; i < 7; i++) {
+        shape.setFillColor(sf::Color(156, 31, 46));
+
+        for (int j = 0; j < 23; j++) {
+            shape.setPosition(sf::Vector2f(i * TETROMINO_SIZE, j * TETROMINO_SIZE) + 
+                                sf::Vector2f(MARGIN - 7 * TETROMINO_SIZE, MARGIN) + sf::Vector2f(TETROMINO_GAP, TETROMINO_GAP));
+            window.draw(shape);
+        }
+    }
+
+    for (int i = 0; i < 10; i++) {
+        shape.setFillColor(sf::Color(156, 31, 46));
+
+        for (int j = 0; j < 3; j++) {
+            shape.setPosition(sf::Vector2f(i * TETROMINO_SIZE, j * TETROMINO_SIZE) + 
+                                sf::Vector2f(MARGIN, MARGIN + TETROMINO_SIZE * WALL_HEIGHT) + sf::Vector2f(TETROMINO_GAP, TETROMINO_GAP));
+            window.draw(shape);
+        }
+    }
+
+    for (int i = 0; i < 7; i++) {
+        shape.setFillColor(sf::Color(156, 31, 46));
+
+        for (int j = 0; j < 23; j++) {
+            shape.setPosition(sf::Vector2f(i * TETROMINO_SIZE, j * TETROMINO_SIZE) + 
+                                sf::Vector2f(MARGIN + WALL_WIDTH * TETROMINO_SIZE, MARGIN) + sf::Vector2f(TETROMINO_GAP, TETROMINO_GAP));
+            window.draw(shape);
+        }
+    }
+
+
+    for (long unsigned int i = 0; i < tetrominos.size(); i++) {
+        if (tetrominos[i]) {
+            shape.setFillColor(TETROMINOS_COLOR[tetrominos[i] - 1]);
+            shape.setPosition(sf::Vector2f((float(i % int(WALL_WIDTH))) * TETROMINO_SIZE, (int(i / int(WALL_WIDTH))) * TETROMINO_SIZE) + 
+                              sf::Vector2f(MARGIN, MARGIN) + sf::Vector2f(TETROMINO_GAP, TETROMINO_GAP));
+            window.draw(shape);
         }
     }
 }

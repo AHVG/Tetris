@@ -1,12 +1,12 @@
 
-#include "app.h"
+#include "game.h"
 
 
 int main() {
 
-    App app;
+    Game game;
 
-    app.run();
+    game.run();
 
     return 0;
 }
