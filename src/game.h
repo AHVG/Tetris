@@ -27,6 +27,12 @@ private:
 
     Wall wall;
 
+    int first_exchange;
+
+    int elapsed_time;
+
+    int score;
+
     // Encapsular numa classe? Pode ser, mas fica tão simples aqui
     int tryRotateClockwiseTetromino();
     int tryRotateAnticlockwiseTetromino();

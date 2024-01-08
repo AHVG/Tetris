@@ -5,6 +5,11 @@
 
 Game::Game() {
     window = new sf::RenderWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Tetris");
+    first_exchange = 1;
+    score = 0;
+
+    current_tetromino = tetromino_generator.generate();
+    next_tetromino = tetromino_generator.generate();
 }
 
 Game::~Game() {
@@ -151,20 +156,23 @@ int Game::tryMoveDownTetromino(int steps) {
     return 1;
 }
 
-void Game::hardDrop() {
+void Game::hardDrop() {}
 
-}
+void Game::accelerateTetromino() {}
 
-void Game::accelerateTetromino() {
-
-}
-
-void Game::decelerateTetromino() {
-
-}
+void Game::decelerateTetromino() {}
 
 void Game::changeTetromino() {
-
+    if (first_exchange) {
+        saved_tetromino = current_tetromino;
+        current_tetromino = next_tetromino;
+        next_tetromino = tetromino_generator.generate();
+    } else {
+        Tetromino aux;
+        aux = current_tetromino;
+        current_tetromino = saved_tetromino;
+        saved_tetromino = aux;
+    }
 }
 
 void Game::handleEvent() {
@@ -180,10 +188,25 @@ void Game::handleEvent() {
 void Game::handleUpdate() {
     sf::Time deltaTime = clock.restart();
     float delta = deltaTime.asSeconds();
+
+    elapsed_time += delta;
+
+    if (elapsed_time > 1) {
+        elapsed_time = 0;
+
+        if(!tryMoveDownTetromino(1)) {
+            score += wall.toScore();
+            current_tetromino = next_tetromino;
+            next_tetromino = tetromino_generator.generate();
+        }
+    }
 }
 
 void Game::handleRender() {
     window->clear();
+
+    current_tetromino.render(*window);
+    wall.render(*window);
 
     window->display();
 }
