@@ -128,9 +128,6 @@ void Wall::render(sf::RenderWindow &window) {
 
     shape.setFillColor(sf::Color(156, 31, 46));
 
-    shape.setOutlineThickness(WALL_GAP);
-    shape.setOutlineColor(sf::Color(200, 200, 200));
-
     for (int line = 0; line < 23; line++) {
         for (int column = 0; column < 28; column++) {
             if(WALL_AROUND[line][column] == '#') {

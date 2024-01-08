@@ -231,6 +231,10 @@ void Game::renderSavedTetromino() {
     }
 }
 
+void Game::renderScore() {
+
+}
+
 void Game::handleEvent() {
     sf::Event event;
 
@@ -278,8 +282,11 @@ void Game::handleUpdate() {
 void Game::handleRender() {
     window.clear();
 
+    renderScore();
+
     renderNextTetromino();
     renderSavedTetromino();
+    
     current_tetromino.render(window);
     wall.render(window);
 

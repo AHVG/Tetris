@@ -52,6 +52,8 @@ private:
     void renderNextTetromino();
     void renderSavedTetromino();
 
+    void renderScore();
+
 public:
 
     Game();
