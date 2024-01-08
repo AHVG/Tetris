@@ -1,6 +1,16 @@
 #ifndef _H_CONSTANTS
 #define _H_CONSTANTS
 
+#include <SFML/Graphics.hpp>
+
+const std::vector<std::vector<int>> TETROMINOS_MATRIX{std::vector<int>{0, 1, 0, 1, 1, 1, 0, 0, 0},
+                                                std::vector<int>{2, 0, 0, 2, 2, 2, 0, 0, 0},
+                                                std::vector<int>{0, 0, 3, 3, 3, 3, 0, 0, 0},
+                                                std::vector<int>{4, 4, 4, 4},
+                                                std::vector<int>{0, 0, 0, 0, 5, 5, 5, 5, 0, 0, 0, 0, 0, 0, 0, 0}};
+const std::vector<int> TETROMINOS_MATRIX_SIZES{3, 3, 3, 2, 4};
+const std::vector<sf::Color> TETROMINOS_COLOR{sf::Color::Red, sf::Color::Blue, sf::Color::Cyan, sf::Color::Green, sf::Color::Magenta};
+
 const float TETROMINO_SIZE = 25.0;
 const float TETROMINO_GAP = 3.0;
 

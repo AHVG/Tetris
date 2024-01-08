@@ -34,7 +34,7 @@ void Wall::put(Tetromino tetromino) {
         }
 
         if (tetromino_matrix[i]) {
-            tetrominos[real_position.x + real_position.y * WALL_WIDTH] = 1;
+            tetrominos[real_position.x + real_position.y * WALL_WIDTH] = tetromino_matrix[i];
         }
     }
 }
@@ -124,11 +124,11 @@ int Wall::collide(Tetromino tetromino) {
 
 void Wall::render(sf::RenderWindow &window) {
     sf::RectangleShape shape;
-    shape.setFillColor(sf::Color::Blue);
     shape.setSize(sf::Vector2f(TETROMINO_SIZE - TETROMINO_GAP, TETROMINO_SIZE - TETROMINO_GAP));
 
     for (long unsigned int i = 0; i < tetrominos.size(); i++) {
         if (tetrominos[i]) {
+            shape.setFillColor(TETROMINOS_COLOR[tetrominos[i] - 1]);
             shape.setPosition(sf::Vector2f((float(i % int(WALL_WIDTH))) * TETROMINO_SIZE, (int(i / int(WALL_WIDTH))) * TETROMINO_SIZE) + 
                               sf::Vector2f(MARGIN, MARGIN) + sf::Vector2f(TETROMINO_GAP, TETROMINO_GAP));
             window.draw(shape);
