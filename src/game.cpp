@@ -20,6 +20,12 @@ Game::Game() : window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Tetris") {
     text.setFont(font);
     text.setCharacterSize(20);
     text.setFillColor(sf::Color::White);
+
+    elapsed_time_to_accelerate = 0.0;
+    elapsed_time = 0.0;
+    time_when_decelerate = 1.0;
+    time_when_accelerate = time_when_decelerate / 6.0;
+    current_time = time_when_decelerate;
 }
 
 Game::~Game() {
@@ -170,9 +176,13 @@ void Game::hardDropTetromino() {
     elapsed_time = 10000; // Gambiarra para atualizar na hora
 }
 
-void Game::accelerateTetromino() {}
+void Game::accelerateTetromino() {
+    current_time = time_when_accelerate;
+}
 
-void Game::decelerateTetromino() {}
+void Game::decelerateTetromino() {
+    current_time = time_when_decelerate;
+}
 
 void Game::changeTetromino() {
     if (exchanged) {
@@ -207,6 +217,22 @@ void Game::generateTetromino() {
 void Game::toScore() {
     wall.put(current_tetromino);
     score += wall.toScore();
+}
+
+void Game::updateTime(float delta) {
+    elapsed_time_to_accelerate += delta;
+
+    if (elapsed_time_to_accelerate > 1.0) {
+        elapsed_time_to_accelerate = 0.0;
+
+        if (time_when_decelerate / 2.0 < MAX_SPEED) {
+            return;
+        }
+
+        time_when_decelerate *= 0.95;
+        time_when_accelerate = time_when_decelerate / 6.0;
+        current_time = time_when_decelerate;
+    }
 }
 
 void Game::renderNextTetromino() {
@@ -309,8 +335,9 @@ void Game::handleUpdate() {
     float delta = deltaTime.asSeconds();
 
     elapsed_time += delta;
+    updateTime(delta);
 
-    if (elapsed_time > 1) {
+    if (elapsed_time > current_time) {
         elapsed_time = 0;
 
         if(!tryMoveDownTetromino(1)) {

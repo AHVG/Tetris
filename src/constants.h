@@ -26,6 +26,8 @@ extern const sf::Vector2f NEXT_TETROMINO_POSITION;
 extern const sf::Vector2f SAVED_TETROMINO_POSITION;
 extern const sf::Vector2f SCORE_POSITION;
 
+extern const float MAX_SPEED;
+
 extern const char *WALL_AROUND[23];
 
 #endif

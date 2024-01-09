@@ -32,7 +32,11 @@ private:
     int first_exchange;
     int exchanged;
 
+    float elapsed_time_to_accelerate;
     float elapsed_time;
+    float time_when_accelerate;
+    float time_when_decelerate;
+    float current_time;
 
     int score;
 
@@ -50,6 +54,7 @@ private:
     void changeTetromino();
     void generateTetromino();
     void toScore();
+    void updateTime(float delta);
 
     void renderNextTetromino();
     void renderSavedTetromino();

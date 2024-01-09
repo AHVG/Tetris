@@ -35,6 +35,8 @@ const sf::Vector2f NEXT_TETROMINO_POSITION{WINDOW_WIDTH - 4.5 * TETROMINO_SIZE, 
 const sf::Vector2f SAVED_TETROMINO_POSITION{4.5 * TETROMINO_SIZE, MARGIN_Y + 4.5 * TETROMINO_SIZE};
 const sf::Vector2f SCORE_POSITION{4.5 * TETROMINO_SIZE, MARGIN_Y + 10.0 * TETROMINO_SIZE};
 
+const float MAX_SPEED = 0.03;
+
 const char *WALL_AROUND[23] = {
     "#########          #########",
     "#########          #########",
