@@ -18,7 +18,6 @@ const std::vector<sf::Color> TETROMINOS_COLOR{sf::Color(128, 0, 128),
                                               sf::Color(255, 0, 0),
                                               sf::Color(0, 255, 0)};
 
-
 const float TETROMINO_SIZE = 25.0;
 const float TETROMINO_GAP = 0.0;
 

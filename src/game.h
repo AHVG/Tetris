@@ -19,7 +19,7 @@ private:
     sf::RenderWindow window;
     sf::Clock clock;
     sf::Font font;
-    sf::Text score_text;
+    sf::Text text;
 
     TetrominoGenerator tetromino_generator;
 
