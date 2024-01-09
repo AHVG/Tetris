@@ -18,6 +18,8 @@ private:
 
     sf::RenderWindow window;
     sf::Clock clock;
+    sf::Font font;
+    sf::Text score_text;
 
     TetrominoGenerator tetromino_generator;
 
@@ -33,7 +35,6 @@ private:
 
     int score;
 
-    // Encapsular numa classe? Pode ser, mas fica tão simples aqui
     int tryRotateClockwiseTetromino();
     int tryRotateAnticlockwiseTetromino();
     int tryMoveUpTetromino(int steps);

@@ -34,6 +34,7 @@ const float MARGIN_Y = 0.0;
 
 const sf::Vector2f NEXT_TETROMINO_POSITION{WINDOW_WIDTH - 4.5 * TETROMINO_SIZE, MARGIN_Y + 4.5 * TETROMINO_SIZE};
 const sf::Vector2f SAVED_TETROMINO_POSITION{4.5 * TETROMINO_SIZE, MARGIN_Y + 4.5 * TETROMINO_SIZE};
+const sf::Vector2f SCORE_POSITION{4.5 * TETROMINO_SIZE, MARGIN_Y + 10.0 * TETROMINO_SIZE};
 
 const char *WALL_AROUND[23] = {
     "#########          #########",
@@ -45,8 +46,8 @@ const char *WALL_AROUND[23] = {
     "##     ##          ##     ##",
     "#########          #########",
     "#########          #########",
-    "##     ##          #########",
-    "##     ##          #########",
+    "#       #          #########",
+    "#       #          #########",
     "#########          #########",
     "#########          #########",
     "#########          #########",

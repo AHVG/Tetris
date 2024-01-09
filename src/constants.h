@@ -9,9 +9,6 @@ extern const std::vector<int> TETROMINOS_MATRIX_SIZES;
 extern const std::vector<sf::Vector2i> TETROMINOS_INITIAL_POSITION;
 extern const std::vector<sf::Color> TETROMINOS_COLOR;
 
-extern const sf::Vector2f NEXT_TETROMINO_POSITION;
-extern const sf::Vector2f SAVED_TETROMINO_POSITION;
-
 extern const float TETROMINO_SIZE;
 extern const float TETROMINO_GAP;
 
@@ -24,6 +21,10 @@ extern const float WINDOW_HEIGHT;
 
 extern const float MARGIN_X;
 extern const float MARGIN_Y;
+
+extern const sf::Vector2f NEXT_TETROMINO_POSITION;
+extern const sf::Vector2f SAVED_TETROMINO_POSITION;
+extern const sf::Vector2f SCORE_POSITION;
 
 extern const char *WALL_AROUND[23];
 

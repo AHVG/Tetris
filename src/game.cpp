@@ -11,6 +11,14 @@ Game::Game() : window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Tetris") {
 
     current_tetromino = tetromino_generator.generate();
     next_tetromino = tetromino_generator.generate();
+
+    if (!font.loadFromFile("./bin/fonts/Minecraft.ttf")) {
+        return;
+    }
+
+    score_text.setFont(font);
+    score_text.setCharacterSize(22);
+    score_text.setFillColor(sf::Color::White);
 }
 
 Game::~Game() {
@@ -230,6 +238,20 @@ void Game::renderSavedTetromino() {
 }
 
 void Game::renderScore() {
+
+    score_text.setString(std::to_string(score));
+
+    sf::FloatRect textRect = score_text.getLocalBounds();
+    score_text.setPosition(SCORE_POSITION - sf::Vector2f(textRect.width/2.0f, 0.0));
+
+    window.draw(score_text);
+
+    score_text.setString("Score");
+
+    textRect = score_text.getLocalBounds();
+    score_text.setPosition(SCORE_POSITION - sf::Vector2f(textRect.width/2.0f, 25.0));
+
+    window.draw(score_text);
 
 }
 
