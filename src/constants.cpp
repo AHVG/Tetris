@@ -18,6 +18,7 @@ const std::vector<sf::Color> TETROMINOS_COLOR{sf::Color(128, 0, 128),
                                               sf::Color(255, 0, 0),
                                               sf::Color(0, 255, 0)};
 
+
 const float TETROMINO_SIZE = 25.0;
 const float TETROMINO_GAP = 0.0;
 
@@ -25,11 +26,14 @@ const float WALL_WIDTH = 10;
 const float WALL_HEIGHT = 20;
 const float WALL_GAP = 0.0;
 
-const float WINDOW_WIDTH = TETROMINO_SIZE * WALL_WIDTH + 500;
-const float WINDOW_HEIGHT = TETROMINO_SIZE * WALL_HEIGHT + 150;
+const float WINDOW_WIDTH = TETROMINO_SIZE * WALL_WIDTH + 450;
+const float WINDOW_HEIGHT = TETROMINO_SIZE * WALL_HEIGHT + 75;
 
-const float MARGIN_X = 250;
-const float MARGIN_Y = 50;
+const float MARGIN_X = 225;
+const float MARGIN_Y = 0.0;
+
+const sf::Vector2f NEXT_TETROMINO_POSITION{WINDOW_WIDTH - 4.5 * TETROMINO_SIZE, MARGIN_Y + 4.5 * TETROMINO_SIZE};
+const sf::Vector2f SAVED_TETROMINO_POSITION{4.5 * TETROMINO_SIZE, MARGIN_Y + 4.5 * TETROMINO_SIZE};
 
 const char *WALL_AROUND[23] = {
     "#########          #########",
