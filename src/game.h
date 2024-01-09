@@ -30,6 +30,7 @@ private:
     Wall wall;
 
     int first_exchange;
+    int exchanged;
 
     float elapsed_time;
 

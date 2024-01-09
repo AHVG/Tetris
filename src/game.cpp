@@ -7,6 +7,7 @@
 
 Game::Game() : window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Tetris") {
     first_exchange = 1;
+    exchanged = 0;
     score = 0;
 
     current_tetromino = tetromino_generator.generate();
@@ -174,6 +175,10 @@ void Game::accelerateTetromino() {}
 void Game::decelerateTetromino() {}
 
 void Game::changeTetromino() {
+    if (exchanged) {
+        return;
+    }
+
     if (first_exchange) {
         saved_tetromino = current_tetromino;
         current_tetromino = next_tetromino;
@@ -186,6 +191,7 @@ void Game::changeTetromino() {
         saved_tetromino = aux;
     }
     
+    exchanged = 1;
     current_tetromino.setPosition(sf::Vector2i(4, 0));
 }
 
@@ -310,6 +316,7 @@ void Game::handleUpdate() {
         if(!tryMoveDownTetromino(1)) {
             toScore();
             generateTetromino();
+            exchanged = 0;
         }
     }
 }
@@ -318,12 +325,12 @@ void Game::handleRender() {
     window.clear();
 
     wall.render(window);
-    renderScore();
 
     renderNextTetromino();
     renderSavedTetromino();
-    
     current_tetromino.render(window);
+    
+    renderScore();
 
     window.display();
 }
