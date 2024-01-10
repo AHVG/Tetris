@@ -16,3 +16,6 @@ Finalmente, após ter feito todos passos anteriores, execute os seguintes comand
 
 Ao abrir, estará uma tela em que para iniciar o jogo se deve apertar r. Depois é só aproveitar a diversão.
 
+![image](https://github.com/AHVG/Tetris/assets/97568599/35a38654-9c84-4a54-b6dd-e253b664ddc5)
+
+![image](https://github.com/AHVG/Tetris/assets/97568599/299803a0-7ab1-44ea-aa6f-cd27696d6866)
