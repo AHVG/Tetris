@@ -23,9 +23,11 @@ Game::Game() : window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Tetris") {
 
     elapsed_time_to_accelerate = 0.0;
     elapsed_time = 0.0;
-    time_when_decelerate = 1.0;
+    time_when_decelerate = INITIAL_SPEED;
     time_when_accelerate = time_when_decelerate / 6.0;
     current_time = time_when_decelerate;
+
+    finished = 1;
 }
 
 Game::~Game() {
@@ -210,7 +212,7 @@ void Game::generateTetromino() {
     next_tetromino = tetromino_generator.generate();
     
     if (wall.collide(current_tetromino)) {
-        window.close();
+        finished = 1;
     }
 }
 
@@ -233,6 +235,20 @@ void Game::updateTime(float delta) {
         time_when_accelerate = time_when_decelerate / 6.0;
         current_time = time_when_decelerate;
     }
+}
+
+void Game::reset() {
+    wall.reset();
+    generateTetromino();
+    first_exchange = 1;
+
+    elapsed_time_to_accelerate = 0.0;
+    elapsed_time = 0.0;
+    time_when_decelerate = INITIAL_SPEED;
+    time_when_accelerate = time_when_decelerate / 6.0;
+    current_time = time_when_decelerate;
+
+    score = 0;
 }
 
 void Game::renderNextTetromino() {
@@ -302,6 +318,15 @@ void Game::renderScore() {
 
 }
 
+void Game::renderRestartText() {
+    text.setString("Press R to restart...");
+
+    sf::FloatRect textRect = text.getLocalBounds();
+    text.setPosition(sf::Vector2f(WINDOW_WIDTH / 2.0, WINDOW_HEIGHT / 2.0) - sf::Vector2f(textRect.width/2.0f, 0.0));
+
+    window.draw(text);
+}
+
 void Game::handleEvent() {
     sf::Event event;
 
@@ -309,18 +334,25 @@ void Game::handleEvent() {
         if (event.type == sf::Event::Closed) {
             window.close();
         } else if (event.type == sf::Event::KeyPressed) {
-            if (event.key.code == sf::Keyboard::Up) {
-                tryRotateClockwiseTetromino();
-            } else if (event.key.code == sf::Keyboard::Right) {
-                tryMoveRightTetromino(1);
-            } else if (event.key.code == sf::Keyboard::Left) {
-                tryMoveLeftTetromino(1);
-            } else if (event.key.code == sf::Keyboard::Down) {
-                accelerateTetromino();
-            } else if (event.key.code == sf::Keyboard::Space) {
-                hardDropTetromino();
-            } else if (event.key.code == sf::Keyboard::C) {
-                changeTetromino();
+            if (!finished) {
+                if (event.key.code == sf::Keyboard::Up) {
+                    tryRotateClockwiseTetromino();
+                } else if (event.key.code == sf::Keyboard::Right) {
+                    tryMoveRightTetromino(1);
+                } else if (event.key.code == sf::Keyboard::Left) {
+                    tryMoveLeftTetromino(1);
+                } else if (event.key.code == sf::Keyboard::Down) {
+                    accelerateTetromino();
+                } else if (event.key.code == sf::Keyboard::Space) {
+                    hardDropTetromino();
+                } else if (event.key.code == sf::Keyboard::C) {
+                    changeTetromino();
+                }
+            } else {
+                if (event.key.code == sf::Keyboard::R) {
+                    finished = 0;
+                    reset();
+                }
             }
         } else if (event.type == sf::Event::KeyReleased) {
             if (event.key.code == sf::Keyboard::Down) {
@@ -331,6 +363,11 @@ void Game::handleEvent() {
 }
 
 void Game::handleUpdate() {
+
+    if (finished) {
+        return;
+    }
+
     sf::Time deltaTime = clock.restart();
     float delta = deltaTime.asSeconds();
 
@@ -351,6 +388,7 @@ void Game::handleUpdate() {
 void Game::handleRender() {
     window.clear();
 
+
     wall.render(window);
 
     renderNextTetromino();
@@ -358,6 +396,10 @@ void Game::handleRender() {
     current_tetromino.render(window);
     
     renderScore();
+    
+    if (finished) {
+        renderRestartText();
+    }
 
     window.display();
 }

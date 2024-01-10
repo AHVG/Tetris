@@ -32,6 +32,8 @@ public:
     int collidesWithOtherTetrominos(Tetromino tetromino);
     int crossedTheLimit(Tetromino tetromino);
     
+    void reset();
+
     void render(sf::RenderWindow &window);
 
 };

@@ -40,6 +40,8 @@ private:
 
     int score;
 
+    int finished;
+
     int tryRotateClockwiseTetromino();
     int tryRotateAnticlockwiseTetromino();
     int tryMoveUpTetromino(int steps);
@@ -54,12 +56,17 @@ private:
     void changeTetromino();
     void generateTetromino();
     void toScore();
+    void reset();
+    
     void updateTime(float delta);
 
     void renderNextTetromino();
     void renderSavedTetromino();
 
     void renderScore();
+
+    void renderRestartText();
+
 
 public:
 

@@ -122,6 +122,12 @@ int Wall::collide(Tetromino tetromino) {
     return crossedTheLimit(tetromino) || collidesWithOtherTetrominos(tetromino);
 }
 
+void Wall::reset() {
+    for (long unsigned int i = 0; i < tetrominos.size(); i++) {
+        tetrominos[i] = 0;
+    }
+}
+
 void Wall::render(sf::RenderWindow &window) {
     sf::RectangleShape shape;
     shape.setSize(sf::Vector2f(TETROMINO_SIZE - WALL_GAP, TETROMINO_SIZE - WALL_GAP));
@@ -138,9 +144,7 @@ void Wall::render(sf::RenderWindow &window) {
         }
     }
 
-
     shape.setSize(sf::Vector2f(TETROMINO_SIZE - TETROMINO_GAP, TETROMINO_SIZE - TETROMINO_GAP));
-    shape.setOutlineThickness(0.0);
 
     for (long unsigned int i = 0; i < tetrominos.size(); i++) {
         if (tetrominos[i]) {
