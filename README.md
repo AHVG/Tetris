@@ -1,4 +1,4 @@
-# Game of Life
+# Tetris
 
 Este projeto é uma implementação do [Tetris](https://tetris.com/play-tetris).
 
@@ -8,7 +8,7 @@ Este projeto é uma implementação do [Tetris](https://tetris.com/play-tetris).
 
 Antes de executar o projeto com makefile, garanta que o [sfml](https://www.sfml-dev.org/) esteja instalado e configurado. É indicado que se use o linux para facilitar toda a configuração. Além disso, é necessário baixar o make para facilitar a compilção do projeto usando o makefile dado. Talvez seja interessante, dependendo do SO em uso, que se utilize uma IDE ou algo do tipo para facilitar toda a configuração.
 
-### Excetudando o programa
+### Executando o programa
 
 Finalmente, após ter feito todos passos anteriores, execute os seguintes comandos na raiz do projeto para executá-lo: `make clean`, em seguida, `make all` e, por último, `make run`.
 
